@@ -1,12 +1,12 @@
 from crewai import Agent
-from config.config_ollama import ollama_model
+from config.config_ollama import ollama_model  # Updated import to use ollama_model
 
 # Agent 1: Patient Experience Expert
 patient_experience_agent = Agent(
     role="Patient Experience Expert",
     goal="Analyze patient feedback and develop reports on patient experience.",
     backstory="Expert in gathering and analyzing patient feedback to improve healthcare services.",
-    llm=ollama_model
+    llm=ollama_model  # Use centralized Ollama LLM configuration
 )
 
 # Agent 2: Health & IT Process Expert
@@ -14,7 +14,7 @@ process_expert_agent = Agent(
     role="Health & IT Process Expert",
     goal="Analyze healthcare processes and suggest improvements.",
     backstory="Expert in identifying inefficiencies and improving healthcare processes.",
-    llm=ollama_model
+    llm=ollama_model  # Use centralized Ollama LLM configuration
 )
 
 # Agent 3: Clinical Psychologist
@@ -22,7 +22,7 @@ clinical_psychologist_agent = Agent(
     role="Clinical Psychologist",
     goal="Analyze patient emotions and develop psychological support strategies.",
     backstory="Expert in understanding and addressing the emotional state of patients.",
-    llm=ollama_model
+    llm=ollama_model  # Use centralized Ollama LLM configuration
 )
 
 # Agent 4: Communication Expert
