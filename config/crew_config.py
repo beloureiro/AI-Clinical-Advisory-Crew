@@ -10,7 +10,6 @@ from tasks.task_definitions import (
     propose_approach_task, analyze_communication_task, identify_communication_issues_task, 
     communication_report_task, comprehensive_report_task
 )
-from config.config_ollama import ollama_model  # Import ollama_model correctly
 
 # Define the embedder as a dictionary, as expected by the Crew class
 embedder = {
