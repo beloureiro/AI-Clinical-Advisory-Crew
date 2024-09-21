@@ -1,12 +1,11 @@
-from config.crew_config import ai_clinical_crew
+import os
+from langchain_community.llms import Ollama  # Use the Ollama class
 
-if __name__ == "__main__":
-    # Set patient feedback
-    patient_feedback = "Doctor made me wait more than two hours for the appointment. In the end, I gave up due to this neglect."
 
-    # Assign feedback to the first task
-    ai_clinical_crew.tasks[0].inputs = {"feedback": patient_feedback}
+# Set a dummy OpenAI API key (required for initialization, even if not used)
+os.environ["OPENAI_API_KEY"] = "sk-proj-111"
 
-    # Execute the crew
-    result = ai_clinical_crew.kickoff()
-    print("Execution result:", result)
+# Configure the Ollama local model (Llama 3.1: 8b model)
+ollama_model = "ollama/llama3.1:8b"  # Certifique-se de que isso seja uma string
+
+

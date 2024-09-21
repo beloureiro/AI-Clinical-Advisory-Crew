@@ -9,10 +9,9 @@ def get_patient_feedback():
 if __name__ == "__main__":
     # Get initial patient feedback from the file
     patient_feedback = get_patient_feedback()
-    
-    # Assign the feedback to the first agent's task as an input (this step can be expanded based on task design)
-    ai_clinical_crew.tasks[0].inputs = {"feedback": patient_feedback}  # Assuming task 0 collects feedback
-    
-    # Execute the crew
-    result = ai_clinical_crew.kickoff()
+
+    # Execute the crew and pass the feedback as input to the tasks
+    result = ai_clinical_crew.kickoff(inputs={"feedback": patient_feedback})
+
+    # Print the result of the execution
     print("Execution result:", result)

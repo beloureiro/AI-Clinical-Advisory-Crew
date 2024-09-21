@@ -10,6 +10,15 @@ from tasks.task_definitions import (
     propose_approach_task, analyze_communication_task, identify_communication_issues_task, 
     communication_report_task, comprehensive_report_task
 )
+from config.config_ollama import ollama_model  # Import ollama_model correctly
+
+# Define the embedder as a dictionary, as expected by the Crew class
+embedder = {
+    "provider": "ollama",
+    "config": {
+        "model": "llama3.1:8b"  # Match the model you're using with Ollama
+    }
+}
 
 # Define the crew for AI-Clinical-Advisory-Crew
 ai_clinical_crew = Crew(
@@ -36,7 +45,8 @@ ai_clinical_crew = Crew(
         communication_report_task,
         comprehensive_report_task
     ],
-    process="sequential",  # Adjust this if you're using a hierarchical process
-    memory=True,  # Enable memory to keep context between agents
+    process="sequential",
+    memory=True,
+    embedder=embedder,
     verbose=True
 )
