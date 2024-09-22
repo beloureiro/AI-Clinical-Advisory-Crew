@@ -19,7 +19,8 @@ def check_for_off_topic(response, feedback):
         print("Off-topic detected in response.")
     return response
 
-def post_process_response(response, max_tokens, feedback):
+def post_process_response(response, max_tokens, inputs):
+    feedback = inputs.get('feedback', '')
     # Truncate the response
     response = truncate_output(response, max_tokens)
     # Check for off-topic content
@@ -30,7 +31,7 @@ def post_process_response(response, max_tokens, feedback):
 
 collect_feedback_task = Task(
     description=(
-        "Analyze the patient feedback strictly based on the input provided. "
+        "Analyze the following patient feedback strictly based on the input provided: '{feedback}'. "
         "Do not include any information that is not present in the feedback. "
         "List the key issues mentioned using bullet points. Do not exceed 50 tokens."
     ),
@@ -44,13 +45,13 @@ collect_feedback_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=50, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
 )
 
 classify_emotional_intensity_task = Task(
     description=(
-        "Provide a simple table classifying the emotional intensity of the feedback on a scale from -1 to 1, "
-        "strictly based on the input. Do not exceed 50 tokens."
+        "Provide a simple table classifying the emotional intensity of the following feedback on a scale from -1 to 1, "
+        "strictly based on the input: '{feedback}'. Do not exceed 50 tokens."
     ),
     expected_output=(
         "### Emotional Intensity\n"
@@ -63,13 +64,13 @@ classify_emotional_intensity_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=50, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
 )
 
 classify_sentiment_task = Task(
     description=(
-        "Classify the sentiment of the patient feedback as Positive, Neutral, or Negative, "
-        "strictly based on the input. Use simple language and avoid elaboration."
+        "Classify the sentiment of the following patient feedback as Positive, Neutral, or Negative, "
+        "strictly based on the input: '{feedback}'. Use simple language and avoid elaboration."
     ),
     expected_output=(
         "### Sentiment Summary:\n"
@@ -80,12 +81,12 @@ classify_sentiment_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=20,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=20, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=20, inputs=inputs)
 )
 
 classify_negative_urgency_task = Task(
     description=(
-        "Classify the negative feedback by urgency level (High/Medium) based strictly on the input. Be concise."
+        "Classify the negative feedback by urgency level (High/Medium) based strictly on the following input: '{feedback}'. Be concise."
     ),
     expected_output=(
         "### Negative Feedback Urgency:\n"
@@ -96,14 +97,14 @@ classify_negative_urgency_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=20,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=20, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=20, inputs=inputs)
 )
 
 # Agent 2 Tasks: Health & IT Process Expert
 
 map_patient_journey_task = Task(
     description=(
-        "Map the patient journey and identify inefficiencies strictly based on the feedback. "
+        "Map the patient journey and identify inefficiencies strictly based on the following feedback: '{feedback}'. "
         "Provide concise, structured feedback. Do not include any external information."
     ),
     expected_output=(
@@ -116,12 +117,12 @@ map_patient_journey_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=70,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=70, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=70, inputs=inputs)
 )
 
 identify_inefficiencies_task = Task(
     description=(
-        "Identify inefficiencies in healthcare processes strictly based on the feedback. Do not exceed 50 tokens."
+        "Identify inefficiencies in healthcare processes strictly based on the following feedback: '{feedback}'. Do not exceed 50 tokens."
     ),
     expected_output=(
         "### Healthcare Process Inefficiencies:\n"
@@ -132,12 +133,12 @@ identify_inefficiencies_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=50, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
 )
 
 process_improvement_report_task = Task(
     description=(
-        "Create a brief process improvement suggestion based on the inefficiencies identified, strictly from the feedback."
+        "Create a brief process improvement suggestion based on the inefficiencies identified, strictly from the following feedback: '{feedback}'."
     ),
     expected_output=(
         "### Process Improvement Suggestion\n"
@@ -148,14 +149,14 @@ process_improvement_report_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=50, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
 )
 
 # Agent 3 Tasks: Clinical Psychologist
 
 analyze_emotional_state_task = Task(
     description=(
-        "Analyze the patient's emotional state strictly from the feedback. Keep it simple and do not infer beyond the input."
+        "Analyze the patient's emotional state strictly from the following feedback: '{feedback}'. Keep it simple and do not infer beyond the input."
     ),
     expected_output=(
         "### Emotional State Analysis\n"
@@ -166,12 +167,12 @@ analyze_emotional_state_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=30,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=30, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=30, inputs=inputs)
 )
 
 develop_support_strategies_task = Task(
     description=(
-        "Develop psychological support strategies tailored to the patient's emotional state, based strictly on the feedback."
+        "Develop psychological support strategies tailored to the patient's emotional state, based strictly on the following feedback: '{feedback}'."
     ),
     expected_output=(
         "### Support Strategies\n"
@@ -182,12 +183,12 @@ develop_support_strategies_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=50, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
 )
 
 propose_approach_task = Task(
     description=(
-        "Propose a concise approach to address the emotional impact based on the feedback, without adding new information."
+        "Propose a concise approach to address the emotional impact based on the following feedback: '{feedback}', without adding new information."
     ),
     expected_output=(
         "### Emotional Support Approach\n"
@@ -198,14 +199,14 @@ propose_approach_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=40,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=40, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=40, inputs=inputs)
 )
 
 # Agent 4 Tasks: Communication Expert
 
 analyze_communication_task = Task(
     description=(
-        "Evaluate the quality of communication strictly based on patient feedback."
+        "Evaluate the quality of communication strictly based on the following patient feedback: '{feedback}'."
     ),
     expected_output=(
         "### Communication Issues\n"
@@ -216,12 +217,12 @@ analyze_communication_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=60,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=60, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=60, inputs=inputs)
 )
 
 identify_communication_issues_task = Task(
     description=(
-        "Identify communication improvement points from the feedback."
+        "Identify communication improvement points from the following feedback: '{feedback}'."
     ),
     expected_output=(
         "### Communication Improvement Points\n"
@@ -232,12 +233,12 @@ identify_communication_issues_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=60,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=60, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=60, inputs=inputs)
 )
 
 communication_report_task = Task(
     description=(
-        "Develop a communication improvement recommendation based on the feedback."
+        "Develop a communication improvement recommendation based on the following feedback: '{feedback}'."
     ),
     expected_output=(
         "### Communication Recommendation\n"
@@ -248,14 +249,14 @@ communication_report_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=50, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
 )
 
 # Agent 5 Tasks: Manager and Advisor
 
 comprehensive_report_task = Task(
     description=(
-        "Create a concise report integrating all expert feedback, strictly based on the patient feedback."
+        "Create a concise report integrating all expert feedback, strictly based on the patient feedback: '{feedback}'."
     ),
     expected_output=(
         "### Final Report\n"
@@ -266,5 +267,5 @@ comprehensive_report_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=100,
-    post_processing_callback=lambda response: post_process_response(response, max_tokens=100, feedback=feedback)
+    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=100, inputs=inputs)
 )

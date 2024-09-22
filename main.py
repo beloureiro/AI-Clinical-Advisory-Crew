@@ -18,11 +18,22 @@ if __name__ == "__main__":
     print("Execution result:", result)
 
     # Check if tasks are available in the output
-    if hasattr(result, 'tasks_output'):  # Replace with the correct attribute after checking the structure
+    if hasattr(result, 'tasks_output') and result.tasks_output:
         total_tokens = 0
         for task_result in result.tasks_output:
-            print(f"Task '{task_result.name}' used {task_result.token_usage} tokens")
-            total_tokens += task_result.token_usage
+            # Use vars() to inspect task_result
+            print(f"task_result contents: {vars(task_result)}")
+
+            # Get task name and token usage
+            task_name = getattr(task_result, 'name', 'Unknown Task')
+            # Assuming token usage is stored in task_result.metrics['token_usage']
+            metrics = getattr(task_result, 'metrics', {})
+            token_usage = metrics.get('token_usage', 0)
+            if token_usage:
+                print(f"Task '{task_name}' used {token_usage} tokens")
+                total_tokens += token_usage
+            else:
+                print(f"Token usage not available for task '{task_name}'")
 
         # Print total token usage
         print(f"Total tokens used by the crew: {total_tokens}")
