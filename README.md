@@ -15,7 +15,12 @@ The project utilizes five specialized agents:
 Each agent has a specific role in analyzing and improving the patient experience.
 
 ## Configuration
-The project uses the Ollama model (llama3.1:8b) for natural language processing.
+The project uses the Ollama models for natural language processing:
+- `llama3.1:8b`
+- `hermes3:8b`
+- `phi3.5:3.8b`
+- `gemma2:9b`
+- `openhermes:latest`
 
 ## Requirements
 - Python 3.8+
