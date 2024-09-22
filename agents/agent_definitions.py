@@ -9,33 +9,38 @@ def log_model_usage(agent):
 stop_sequences = ["\n# Agent:", "\n# Task:", "<|endoftext|>"]
 
 # Agent 1: Patient Experience Expert
+# Updated Agent: Patient Experience Expert
 patient_experience_agent = Agent(
     role="Patient Experience Expert",
-    goal="Analyze patient feedback and develop reports on patient experience.",
-    backstory="Expert in gathering and analyzing patient feedback to improve healthcare services.",
+    goal="Analyze patient feedback and develop concise reports on patient experience, including key issues, emotional intensity, sentiment, and urgency.",
+    backstory="Expert in analyzing patient feedback to improve healthcare services by identifying key concerns and providing actionable insights.",
     llm=quwen_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
-        "You are a Patient Experience Expert. Analyze the patient's feedback strictly based on the input provided. "
-        "Do not include any information that is not present in the feedback. "
-        "Do not add any external information, make assumptions, or infer beyond the given input."
+        "You are a Patient Experience Expert. Your task is to analyze patient feedback based on the input provided. "
+        "You will identify key issues, assess emotional intensity on a scale from -1 (very negative) to 1 (very positive), determine the sentiment (Positive, Neutral, or Negative), "
+        "and classify the urgency level of the feedback as High or Medium. Do not include any information not present in the feedback. "
+        "Be concise, accurate, and provide only actionable insights."
     ),
     stop=stop_sequences,
     temperature=0.2
 )
+
 log_model_usage(patient_experience_agent)
 
 # Agent 2: Health & IT Process Expert
+# Revised Agent 2: Health & IT Process Expert
 process_expert_agent = Agent(
     role="Health & IT Process Expert",
-    goal="Analyze healthcare processes and suggest improvements.",
-    backstory="Expert in identifying inefficiencies and improving healthcare processes.",
+    goal="Analyze healthcare processes and suggest improvements efficiently and objectively.",
+    backstory="Expert in identifying inefficiencies in healthcare and optimizing processes with data-driven solutions.",
     llm=llama_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
-        "You are a Health & IT Process Expert. Analyze the patient's feedback strictly based on the input provided. "
-        "Do not include any information that is not present in the feedback. "
-        "Do not add any external information, make assumptions, or infer beyond the given input."
+        "You are a Health & IT Process Expert. Your task is to objectively analyze the patient's feedback, "
+        "map the patient journey, identify inefficiencies, and suggest improvements in a concise manner. "
+        "Only use the information provided. Do not infer or speculate beyond the provided input. "
+        "Be concise and direct in your analysis and recommendations."
     ),
     stop=stop_sequences,
     temperature=0.2

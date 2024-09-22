@@ -6,143 +6,61 @@ from agents.agent_definitions import (
 from utils import post_process_response  # Importa a função post_process_response do utils
 
 # Agent 1 Tasks: Patient Experience Expert
-
-collect_feedback_task = Task(
+# Consolidated task for Patient Experience Expert
+consolidated_patient_experience_task = Task(
     description=(
-        "Based on the following patient feedback, identify the key issues:\n\n"
+        "Analyze the following patient feedback, and provide the following information:\n\n"
         "'{feedback}'\n\n"
-        "List the issues using bullet points."
+        "1. Identify the key issues in bullet points.\n"
+        "2. Classify the emotional intensity on a scale from -1 (very negative) to 1 (very positive).\n"
+        "3. Determine the sentiment (Positive, Neutral, or Negative).\n"
+        "4. Classify the urgency level of the negative feedback (High or Medium).\n\n"
+        "Provide a concise and clear report covering all of the above points."
     ),
     expected_output=(
-        "### Key Issues Identified:\n"
-        "* Issue 1: [Key issue directly from feedback]"
+        "### Consolidated Patient Feedback Analysis\n"
+        "* **Key Issues**: \n"
+        "  - Issue 1: [Key issue directly from feedback]\n"
+        "  - Issue 2: [Another key issue if applicable]\n"
+        "* **Emotional Intensity**: [Score from -1 to 1]\n"
+        "* **Sentiment**: [Positive/Neutral/Negative]\n"
+        "* **Urgency Level**: [High/Medium]"
     ),
     agent=patient_experience_agent,
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=50,
+    max_tokens=100,  # You may adjust this based on expected output length
     post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=50, inputs=inputs, agent=patient_experience_agent
-    )
-)
-
-classify_emotional_intensity_task = Task(
-    description=(
-        "Classify the emotional intensity of the following feedback on a scale from -1 to 1:\n\n"
-        "'{feedback}'\n\n"
-        "Provide the intensity score."
-    ),
-    expected_output=(
-        "### Emotional Intensity\n"
-        "* Intensity Score: [Score]"
-    ),
-    agent=patient_experience_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=20,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=20, inputs=inputs, agent=patient_experience_agent
-    )
-)
-
-classify_sentiment_task = Task(
-    description=(
-        "Determine the sentiment of the following feedback (Positive, Neutral, or Negative):\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Sentiment Summary:\n"
-        "* Sentiment: [Positive/Negative/Neutral]"
-    ),
-    agent=patient_experience_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=10,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=10, inputs=inputs, agent=patient_experience_agent
-    )
-)
-
-classify_negative_urgency_task = Task(
-    description=(
-        "Classify the urgency level of the negative feedback (High or Medium):\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Negative Feedback Urgency:\n"
-        "* Urgency Level: [High/Medium]"
-    ),
-    agent=patient_experience_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=10,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=10, inputs=inputs, agent=patient_experience_agent
+        response, max_tokens=100, inputs=inputs, agent=patient_experience_agent
     )
 )
 
 # Agent 2 Tasks: Health & IT Process Expert
-
-map_patient_journey_task = Task(
+# Consolidated Task for Health & IT Process Expert
+consolidated_process_task = Task(
     description=(
-        "Outline the patient's journey and identify any inefficiencies based on the feedback:\n\n"
+        "Analyze the following patient feedback, map the patient's journey, identify inefficiencies, "
+        "and suggest improvements:\n\n"
         "'{feedback}'\n\n"
-        "Provide your findings."
+        "Provide your findings including:\n"
+        "1. Key stages in the patient's journey.\n"
+        "2. Inefficiencies in the healthcare process.\n"
+        "3. Recommendations for process improvements."
     ),
     expected_output=(
-        "### Patient Journey Map\n"
-        "* Stage: [Stage from feedback]\n"
-        "* Inefficiency: [Inefficiency from feedback]"
+        "### Consolidated Healthcare Process Analysis\n"
+        "* Patient Journey: [Stage from feedback]\n"
+        "* Inefficiencies: [Inefficiency from feedback]\n"
+        "* Improvement Suggestions: [Recommendations based on inefficiencies]"
     ),
     agent=process_expert_agent,
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=50,
+    max_tokens=100,
     post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=50, inputs=inputs, agent=process_expert_agent
-    )
-)
-
-identify_inefficiencies_task = Task(
-    description=(
-        "Identify inefficiencies in the healthcare process based on the feedback:\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Healthcare Process Inefficiencies:\n"
-        "* Inefficiency: [Description from feedback]"
-    ),
-    agent=process_expert_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=30,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=30, inputs=inputs, agent=process_expert_agent
-    )
-)
-
-process_improvement_report_task = Task(
-    description=(
-        "Suggest a process improvement based on the identified inefficiencies:\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Process Improvement Suggestion\n"
-        "* Recommendation: [Directly addressing feedback]"
-    ),
-    agent=process_expert_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=40,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=40, inputs=inputs, agent=process_expert_agent
+        response, max_tokens=100, inputs=inputs, agent=process_expert_agent
     )
 )
 
