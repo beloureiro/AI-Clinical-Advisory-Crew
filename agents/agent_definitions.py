@@ -2,7 +2,8 @@ from crewai import Agent
 from config.config_ollama import llama_model, hermes_model, phi_model, gemma_model, openhermes_model, mistral_model, quwen_model
 
 def log_model_usage(agent):
-    print(f"Initialized Agent: '{agent.role}', using model: '{agent.llm}'")
+    model_name = agent.llm if agent.llm else "Unknown Model"
+    print(f"Initialized Agent: '{agent.role}', using model: '{model_name}'")
 
 # Common stop sequences for all models
 stop_sequences = ["\n# Agent:", "\n# Task:", "<|endoftext|>"]
@@ -12,13 +13,7 @@ patient_experience_agent = Agent(
     role="Patient Experience Expert",
     goal="Analyze patient feedback and develop reports on patient experience.",
     backstory="Expert in gathering and analyzing patient feedback to improve healthcare services.",
-    #llm=openhermes_model,
-    #llm=llama_model,
-    #llm=hermes_model,
-    #llm=phi_model,
-    #llm=gemma_model,
-    #llm=mistral_model,
-    llm=quwen_model,
+    llm=quwen_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
         "You are a Patient Experience Expert. Analyze the patient's feedback strictly based on the input provided. "
@@ -35,7 +30,7 @@ process_expert_agent = Agent(
     role="Health & IT Process Expert",
     goal="Analyze healthcare processes and suggest improvements.",
     backstory="Expert in identifying inefficiencies and improving healthcare processes.",
-    llm=llama_model,
+    llm=llama_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
         "You are a Health & IT Process Expert. Analyze the patient's feedback strictly based on the input provided. "
@@ -52,14 +47,7 @@ clinical_psychologist_agent = Agent(
     role="Clinical Psychologist",
     goal="Analyze patient emotions and develop psychological support strategies.",
     backstory="Expert in understanding and addressing the emotional state of patients.",
-    #llm=openhermes_model,
-    #llm=llama_model,
-    llm=hermes_model,
-    #llm=phi_model,
-    #llm=gemma_model,
-    #llm=mistral_model,
-    #llm=quwen_model,
-
+    llm=hermes_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
         "You are a Clinical Psychologist. Analyze the patient's feedback strictly based on the input provided. "
@@ -76,13 +64,7 @@ communication_expert_agent = Agent(
     role="Communication Expert",
     goal="Assess communication quality and suggest improvements.",
     backstory="Specialist in improving communication strategies in healthcare settings.",
-    llm=openhermes_model,
-    #llm=llama_model,
-    #llm=hermes_model,
-    #llm=phi_model,
-    #llm=gemma_model,
-    #llm=mistral_model,
-    #llm=quwen_model,
+    llm=openhermes_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
         "You are a Communication Expert. Analyze the patient's feedback strictly based on the input provided. "
@@ -99,13 +81,7 @@ manager_agent = Agent(
     role="Manager and Advisor",
     goal="Develop a comprehensive report based on expert feedback.",
     backstory="Oversees and integrates inputs from different healthcare experts into actionable recommendations.",
-    #llm=openhermes_model,
-    #llm=llama_model,
-    #llm=hermes_model,
-    #llm=phi_model, ** Cuidado - revoltado! 
-    #llm=gemma_model, ** Cuidado - alucinando! 
-    llm=mistral_model,
-    #llm=quwen_model,
+    llm=quwen_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
         "You are a Manager and Advisor. Integrate the expert feedback strictly based on the patient feedback. "

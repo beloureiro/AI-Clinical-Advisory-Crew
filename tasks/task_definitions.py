@@ -3,36 +3,7 @@ from agents.agent_definitions import (
     patient_experience_agent, process_expert_agent, clinical_psychologist_agent,
     communication_expert_agent, manager_agent
 )
-
-# Helper function to monitor and enforce token limits and output structure
-def truncate_output(response, max_tokens=50):
-    tokens = response.split()
-    if len(tokens) > max_tokens:
-        # Find the last period before max_tokens
-        truncated_response = ' '.join(tokens[:max_tokens])
-        last_period = truncated_response.rfind('.')
-        if last_period != -1:
-            return truncated_response[:last_period+1]
-        else:
-            return truncated_response + '...'
-    return response
-
-def check_for_off_topic(response, feedback):
-    # Check if the response contains content not present in the feedback
-    feedback_words = set(feedback.lower().split())
-    response_words = set(response.lower().split())
-    off_topic_words = response_words - feedback_words
-    if off_topic_words:
-        print("Off-topic detected in response.")
-    return response
-
-def post_process_response(response, max_tokens, inputs):
-    feedback = inputs.get('feedback', '')
-    # Truncate the response
-    response = truncate_output(response, max_tokens)
-    # Check for off-topic content
-    response = check_for_off_topic(response, feedback)
-    return response
+from utils import post_process_response  # Importa a função post_process_response do utils
 
 # Agent 1 Tasks: Patient Experience Expert
 
@@ -51,7 +22,9 @@ collect_feedback_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=50, inputs=inputs, agent=patient_experience_agent
+    )
 )
 
 classify_emotional_intensity_task = Task(
@@ -69,7 +42,9 @@ classify_emotional_intensity_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=20,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=20, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=20, inputs=inputs, agent=patient_experience_agent
+    )
 )
 
 classify_sentiment_task = Task(
@@ -86,7 +61,9 @@ classify_sentiment_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=10,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=10, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=10, inputs=inputs, agent=patient_experience_agent
+    )
 )
 
 classify_negative_urgency_task = Task(
@@ -103,7 +80,9 @@ classify_negative_urgency_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=10,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=10, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=10, inputs=inputs, agent=patient_experience_agent
+    )
 )
 
 # Agent 2 Tasks: Health & IT Process Expert
@@ -124,7 +103,9 @@ map_patient_journey_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=50, inputs=inputs, agent=process_expert_agent
+    )
 )
 
 identify_inefficiencies_task = Task(
@@ -141,7 +122,9 @@ identify_inefficiencies_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=30,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=30, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=30, inputs=inputs, agent=process_expert_agent
+    )
 )
 
 process_improvement_report_task = Task(
@@ -158,7 +141,9 @@ process_improvement_report_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=40,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=40, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=40, inputs=inputs, agent=process_expert_agent
+    )
 )
 
 # Agent 3 Tasks: Clinical Psychologist
@@ -177,7 +162,9 @@ analyze_emotional_state_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=20,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=20, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=20, inputs=inputs, agent=clinical_psychologist_agent
+    )
 )
 
 develop_support_strategies_task = Task(
@@ -194,7 +181,9 @@ develop_support_strategies_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=40,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=40, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=40, inputs=inputs, agent=clinical_psychologist_agent
+    )
 )
 
 propose_approach_task = Task(
@@ -211,7 +200,9 @@ propose_approach_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=30,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=30, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=30, inputs=inputs, agent=clinical_psychologist_agent
+    )
 )
 
 # Agent 4 Tasks: Communication Expert
@@ -230,7 +221,9 @@ analyze_communication_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=30,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=30, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=30, inputs=inputs, agent=communication_expert_agent
+    )
 )
 
 identify_communication_issues_task = Task(
@@ -247,7 +240,9 @@ identify_communication_issues_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=50,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=50, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=50, inputs=inputs, agent=communication_expert_agent
+    )
 )
 
 communication_report_task = Task(
@@ -264,7 +259,9 @@ communication_report_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=40,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=40, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=40, inputs=inputs, agent=communication_expert_agent
+    )
 )
 
 # Agent 5 Tasks: Manager and Advisor
@@ -283,5 +280,7 @@ comprehensive_report_task = Task(
     force_output=True,
     output_format="markdown",
     max_tokens=100,
-    post_processing_callback=lambda response, inputs: post_process_response(response, max_tokens=100, inputs=inputs)
+    post_processing_callback=lambda response, inputs: post_process_response(
+        response, max_tokens=100, inputs=inputs, agent=manager_agent
+    )
 )
