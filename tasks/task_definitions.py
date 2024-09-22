@@ -3,7 +3,6 @@ from agents.agent_definitions import (
     patient_experience_agent, process_expert_agent, clinical_psychologist_agent,
     communication_expert_agent, manager_agent
 )
-from utils import post_process_response  # Importa a função post_process_response do utils
 
 # Agent 1 Tasks: Patient Experience Expert
 # Consolidated task for Patient Experience Expert
@@ -30,10 +29,7 @@ consolidated_patient_experience_task = Task(
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=100,  # You may adjust this based on expected output length
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=100, inputs=inputs, agent=patient_experience_agent
-    )
+    max_tokens=100  # Ajuste conforme necessário
 )
 
 # Agent 2 Tasks: Health & IT Process Expert
@@ -58,10 +54,7 @@ consolidated_process_task = Task(
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=100,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=100, inputs=inputs, agent=process_expert_agent
-    )
+    max_tokens=100
 )
 
 # Agent 3 Tasks: Clinical Psychologist
@@ -86,11 +79,9 @@ consolidated_clinical_psychologist_task = Task(
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=100,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=100, inputs=inputs, agent=clinical_psychologist_agent
-    )
+    max_tokens=100
 )
+
 # Agent 4 Tasks: Communication Expert
 # New consolidated task for Communication Expert
 consolidated_communication_task = Task(
@@ -114,10 +105,7 @@ consolidated_communication_task = Task(
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=100,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=100, inputs=inputs, agent=communication_expert_agent
-    )
+    max_tokens=100
 )
 
 # Agent 5 Tasks: Manager and Advisor
@@ -137,9 +125,5 @@ consolidated_manager_task = Task(
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=100,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=100, inputs=inputs, agent=manager_agent
-    )
+    max_tokens=100
 )
-

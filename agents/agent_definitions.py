@@ -1,9 +1,6 @@
 from crewai import Agent
 from config.config_ollama import llama_model, hermes_model, phi_model, gemma_model, openhermes_model, mistral_model, quwen_model
-
-def log_model_usage(agent):
-    model_name = agent.llm if agent.llm else "Unknown Model"
-    print(f"Initialized Agent: '{agent.role}', using model: '{model_name}'")
+from utils import log_model_usage  # Agora importado do utils
 
 # Common stop sequences for all models
 stop_sequences = ["\n# Agent:", "\n# Task:", "<|endoftext|>"]
