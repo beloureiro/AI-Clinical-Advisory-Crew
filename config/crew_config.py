@@ -5,11 +5,10 @@ from agents.agent_definitions import (
 )
 from tasks.task_definitions import (
     consolidated_patient_experience_task,  # Consolidated task for Patient Experience Expert
-    consolidated_process_task,  # New consolidated task for Process Expert
-    analyze_emotional_state_task, develop_support_strategies_task, 
-    propose_approach_task, analyze_communication_task, 
-    identify_communication_issues_task, communication_report_task, 
-    comprehensive_report_task
+    consolidated_process_task,  # Consolidated task for Process Expert
+    consolidated_clinical_psychologist_task,  # Consolidated task for Clinical Psychologist
+    consolidated_communication_task,  # Consolidated task for Communication Expert
+    consolidated_manager_task  # New consolidated task for Manager and Advisor
 )
 
 # Define the embedder as a dictionary, as expected by the Crew class
@@ -32,13 +31,9 @@ ai_clinical_crew = Crew(
     tasks=[
         consolidated_patient_experience_task,  # Use consolidated task for Patient Experience Expert
         consolidated_process_task,  # Use consolidated task for Process Expert
-        analyze_emotional_state_task,
-        develop_support_strategies_task,
-        propose_approach_task,
-        analyze_communication_task,
-        identify_communication_issues_task,
-        communication_report_task,
-        comprehensive_report_task
+        consolidated_clinical_psychologist_task,  # Use consolidated task for Clinical Psychologist
+        consolidated_communication_task,  # Use consolidated task for Communication Expert
+        consolidated_manager_task  # Use consolidated task for Manager and Advisor
     ],
     process="sequential",
     memory=True,

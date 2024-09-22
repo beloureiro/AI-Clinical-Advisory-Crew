@@ -65,133 +65,73 @@ consolidated_process_task = Task(
 )
 
 # Agent 3 Tasks: Clinical Psychologist
-
-analyze_emotional_state_task = Task(
+# New consolidated task for Clinical Psychologist
+consolidated_clinical_psychologist_task = Task(
     description=(
-        "Analyze the patient's emotional state based on the feedback:\n\n"
-        "'{feedback}'"
+        "Analyze the patient's emotional state based on the feedback, develop a tailored psychological support strategy, "
+        "and propose an approach to address the emotional impact:\n\n"
+        "'{feedback}'\n\n"
+        "Provide your analysis including:\n"
+        "1. Emotional State.\n"
+        "2. Support Strategy.\n"
+        "3. Suggested Approach for emotional support."
     ),
     expected_output=(
-        "### Emotional State Analysis\n"
-        "* Emotional State: [State from feedback]"
+        "### Consolidated Psychological Support Analysis\n"
+        "* Emotional State: [State from feedback]\n"
+        "* Support Strategy: [Directly addressing feedback]\n"
+        "* Suggested Approach: [Emotional support approach based on feedback]"
     ),
     agent=clinical_psychologist_agent,
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=20,
+    max_tokens=100,
     post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=20, inputs=inputs, agent=clinical_psychologist_agent
+        response, max_tokens=100, inputs=inputs, agent=clinical_psychologist_agent
     )
 )
-
-develop_support_strategies_task = Task(
-    description=(
-        "Develop a psychological support strategy tailored to the patient's emotional state:\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Support Strategy\n"
-        "* Strategy: [Directly addressing feedback]"
-    ),
-    agent=clinical_psychologist_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=40,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=40, inputs=inputs, agent=clinical_psychologist_agent
-    )
-)
-
-propose_approach_task = Task(
-    description=(
-        "Propose an approach to address the emotional impact based on the feedback:\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Emotional Support Approach\n"
-        "* Approach: [From feedback]"
-    ),
-    agent=clinical_psychologist_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=30,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=30, inputs=inputs, agent=clinical_psychologist_agent
-    )
-)
-
 # Agent 4 Tasks: Communication Expert
-
-analyze_communication_task = Task(
+# New consolidated task for Communication Expert
+consolidated_communication_task = Task(
     description=(
-        "Evaluate the communication quality based on the patient feedback:\n\n"
-        "'{feedback}'"
+        "Evaluate the communication quality based on the patient feedback, identify any issues, and suggest improvements. "
+        "Provide a final recommendation for improving communication strategies:\n\n"
+        "'{feedback}'\n\n"
+        "Provide your findings including:\n"
+        "1. Communication Quality Evaluation.\n"
+        "2. Identified Issues.\n"
+        "3. Suggested Improvements."
     ),
     expected_output=(
-        "### Communication Evaluation\n"
-        "* Issue: [From feedback]"
+        "### Consolidated Communication Report\n"
+        "* Communication Quality: [From feedback]\n"
+        "* Issues Identified: [Issues]\n"
+        "* Suggested Improvements: [Suggestions based on feedback]\n"
+        "* Final Recommendation: [Recommendations for improvement]"
     ),
     agent=communication_expert_agent,
     inputs={"feedback"},
     force_output=True,
     output_format="markdown",
-    max_tokens=30,
+    max_tokens=100,
     post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=30, inputs=inputs, agent=communication_expert_agent
-    )
-)
-
-identify_communication_issues_task = Task(
-    description=(
-        "Identify communication issues and suggest improvements based on the feedback:\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Communication Improvement Points\n"
-        "* Issue: [From feedback] -> Improvement: [Suggestion]"
-    ),
-    agent=communication_expert_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=50,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=50, inputs=inputs, agent=communication_expert_agent
-    )
-)
-
-communication_report_task = Task(
-    description=(
-        "Provide a communication improvement recommendation based on the feedback:\n\n"
-        "'{feedback}'"
-    ),
-    expected_output=(
-        "### Communication Recommendation\n"
-        "* Recommendation: [Directly addressing feedback]"
-    ),
-    agent=communication_expert_agent,
-    inputs={"feedback"},
-    force_output=True,
-    output_format="markdown",
-    max_tokens=40,
-    post_processing_callback=lambda response, inputs: post_process_response(
-        response, max_tokens=40, inputs=inputs, agent=communication_expert_agent
+        response, max_tokens=100, inputs=inputs, agent=communication_expert_agent
     )
 )
 
 # Agent 5 Tasks: Manager and Advisor
-
-comprehensive_report_task = Task(
+# New task for Manager and Advisor to consolidate and remove redundancy
+consolidated_manager_task = Task(
     description=(
-        "Create a concise report integrating all expert feedback based on the patient feedback:\n\n"
-        "'{feedback}'"
+        "Create a concise report by filtering out redundant recommendations from the expert feedback. "
+        "Summarize the key points in bullet points, with no more than two sentences per item:\n\n"
+        "'{feedback}'\n\n"
+        "Provide the consolidated recommendations, ensuring no redundant items are repeated."
     ),
     expected_output=(
-        "### Final Report\n"
-        "* [Top recommendations from each agent directly addressing feedback]"
+        "### Final Consolidated Report\n"
+        "* [Non-redundant recommendations from all agents]"
     ),
     agent=manager_agent,
     inputs={"feedback"},
@@ -202,3 +142,4 @@ comprehensive_report_task = Task(
         response, max_tokens=100, inputs=inputs, agent=manager_agent
     )
 )
+

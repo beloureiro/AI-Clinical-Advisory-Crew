@@ -62,7 +62,9 @@ clinical_psychologist_agent = Agent(
     stop=stop_sequences,
     temperature=0.2
 )
+
 log_model_usage(clinical_psychologist_agent)
+
 
 # Agent 4: Communication Expert
 communication_expert_agent = Agent(
@@ -79,19 +81,19 @@ communication_expert_agent = Agent(
     stop=stop_sequences,
     temperature=0.2
 )
+
 log_model_usage(communication_expert_agent)
 
 # Agent 5: Manager and Advisor
 manager_agent = Agent(
     role="Manager and Advisor",
-    goal="Develop a comprehensive report based on expert feedback.",
-    backstory="Oversees and integrates inputs from different healthcare experts into actionable recommendations.",
+    goal="Develop a concise report by consolidating and filtering expert feedback.",
+    backstory="Oversees and integrates inputs from different healthcare experts into actionable recommendations, ensuring no redundancies.",
     llm=quwen_model,  # Ensure this model is properly referenced
     inputs=["feedback"],
     system_prompt=(
-        "You are a Manager and Advisor. Integrate the expert feedback strictly based on the patient feedback. "
-        "Do not include any information that is not present in the feedback. "
-        "Do not add any external information, make assumptions, or infer beyond the given input."
+        "You are a Manager and Advisor. Your role is to consolidate expert feedback into a concise, non-redundant report. "
+        "Do not introduce new recommendations. Filter out similar suggestions from different agents and summarize the key points in bullet points."
     ),
     stop=stop_sequences,
     temperature=0.2
