@@ -1,7 +1,9 @@
 # AI Clinical Advisory Crew
 
 ## Description
-This project implements a system for analyzing and improving patient experience in healthcare environments, using a team of specialized AI agents. The system processes patient feedback, analyzes healthcare processes, evaluates emotional states, and proposes improvements in communication and processes.
+This project implements a system for analyzing and improving patient experience in healthcare environments, using a team of specialized AI agents. The system processes patient feedback, analyzes healthcare processes, evaluates emotional states, and proposes improvements in communication and processes. 
+
+A key feature of this project is the flexibility to swap out different LLM (Large Language Model) configurations for testing various outputs. Each agent can utilize a different LLM, allowing for the combination of multiple agents with distinct models in the process, enhancing the overall analysis and recommendations.
 
 ## Agents
 The project utilizes five specialized agents:

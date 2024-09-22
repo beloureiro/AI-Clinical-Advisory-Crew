@@ -10,4 +10,6 @@ hermes_model = "ollama/hermes3:8b"
 phi_model = "ollama/phi3.5:3.8b"
 gemma_model = "ollama/gemma2:9b"
 openhermes_model = "ollama/openhermes:latest"
+mistral_model = "ollama/mistral-nemo:latest"
+quwen_model = "ollama/qwen2:7b"
 #----------------------------------
