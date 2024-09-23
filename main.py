@@ -1,6 +1,6 @@
 import time
 from config.crew_config import ai_clinical_crew
-from utils import get_patient_feedback, log_all_models, format_task_descriptions, execute_agents
+from utils import log_model_usage, get_patient_feedback, log_all_models, format_task_descriptions, execute_agents, save_consolidated_report
 
 def execute_crew():
     start_time = time.time()  # Início da execução
@@ -23,14 +23,15 @@ def execute_crew():
 
     end_time = time.time()  # Fim da execução
     total_duration = end_time - start_time
-    minutes = int(total_duration // 60)
-    seconds = int(total_duration % 60)
 
     print("############################")
     print("# Consolidated Final Report")
     print("############################\n")
     print(f"Patient Feedback: {patient_feedback}\n")
-    print(f"Total execution time: {minutes} minutes and {seconds} seconds.")
+
+    # Salva o relatório consolidado na pasta 'agents' e obtém o nome do arquivo (ID)
+    report_file_name = save_consolidated_report(patient_feedback, result.tasks_output, total_duration)
+    print(f"Report saved as: {report_file_name}")  # Exibe o nome do arquivo gerado
 
 if __name__ == "__main__":
     execute_crew()
