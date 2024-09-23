@@ -8,13 +8,13 @@ logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 
 def normalize_key(key):
     key = key.strip()
-    key = re.sub(r'^[-\*\s]+', '', key)  # Remove marcadores, asteriscos e espaços iniciais
-    key = re.sub(r'[-\*\s]+$', '', key)  # Remove marcadores, asteriscos e espaços finais
+    key = re.sub(r'^[-\*\s]+', '', key)  # Remove markers, asterisks, and leading spaces
+    key = re.sub(r'[-\*\s]+$', '', key)  # Remove markers, asterisks, and trailing spaces
     key = key.strip()
     key = key.lower()
-    key = key.replace('&', 'and')         # Substituir '&' por 'and'
-    key = re.sub(r'\s+', '_', key)        # Substitui espaços por underscores
-    key = re.sub(r'[^a-z0-9_]', '', key)  # Remove caracteres não alfanuméricos, exceto underscores
+    key = key.replace('&', 'and')         # Replace '&' with 'and'
+    key = re.sub(r'\s+', '_', key)        # Replace spaces with underscores
+    key = re.sub(r'[^a-z0-9_]', '', key)  # Remove non-alphanumeric characters except underscores
     return key
 
 def process_txt_report(file_path):
@@ -25,10 +25,10 @@ def process_txt_report(file_path):
         logging.error(f"Erro ao ler o arquivo {file_path}: {e}")
         return None
 
-    # Usar o nome do arquivo como Feedback_ID
+    # Use the file name as Feedback_ID
     feedback_id = os.path.basename(file_path).split('.')[0]
 
-    # Inicializar o dicionário de dados com strings vazias
+    # Initialize the data dictionary with empty strings
     data = {key: "" for key in [
         "Feedback_ID",
         "Total_execution_time",
@@ -52,14 +52,14 @@ def process_txt_report(file_path):
     ]}
     data["Feedback_ID"] = feedback_id
 
-    # Extrair 'Total execution time' do conteúdo completo
+    # Extract 'Total execution time' from the full content
     match_total_time = re.search(r'Total execution time:\s*(.*)', content)
     if match_total_time:
         total_time = match_total_time.group(1).strip()
         data['Total_execution_time'] = total_time
         logging.debug(f"Extraído 'Total_execution_time': {total_time}")
 
-    # Dividir o conteúdo em seções com base nos separadores
+    # Split the content into sections based on separators
     sections = content.split('############################')
 
     for section in sections:
@@ -67,7 +67,7 @@ def process_txt_report(file_path):
         if not section:
             continue
 
-        # Seção de Feedback do Paciente
+        # Patient Feedback Section
         if 'Patient Feedback:' in section:
             match = re.search(r'Patient Feedback:(.*)', section, re.DOTALL)
             if match:
@@ -75,17 +75,17 @@ def process_txt_report(file_path):
                 data['Patient_Feedback'] = patient_feedback
                 logging.debug(f"Extraído 'Patient_Feedback': {patient_feedback}")
 
-        # Seções dos Agentes
+        # Agent Sections
         elif 'Agent:' in section:
             agent_match = re.search(r'Agent:\s*(.*)', section)
             if agent_match:
                 agent_name = agent_match.group(1).strip()
-                # Capturar o conteúdo após 'Final Answer:'
+                # Capture the content after 'Final Answer:'
                 answer_match = re.search(r'Final Answer:\s*(.*)', section, re.DOTALL)
                 if answer_match:
                     agent_content = answer_match.group(1).strip()
                     logging.debug(f"Processando agente: {agent_name}")
-                    # Processar o conteúdo do agente
+                    # Process the agent's content
                     process_agent_section(agent_name, agent_content, data)
                 else:
                     logging.warning(f"'Final Answer:' não encontrado para o agente '{agent_name}'")
@@ -130,74 +130,86 @@ def process_agent_section(agent_name, agent_content, data):
     key_mapping = agent_key_mappings.get(normalized_agent_name, {})
 
     if not key_mapping:
-        logging.warning(f"Agente desconhecido ou sem mapeamento definido: '{agent_name}' (normalizado: '{normalized_agent_name}')")
+        logging.warning(f"Unknown agent or unmapped: '{agent_name}' (normalized: '{normalized_agent_name}')")
         return
+
+    # Prepare a regex pattern to match any key in key_mapping
+    key_pattern = re.compile(r'^[-\*\s]*(.+?):\s*(.*)')
+    expected_keys = set(key_mapping.keys())
 
     lines = agent_content.splitlines()
     current_key = None
     value_accumulator = []
 
     for line in lines:
-        original_line = line  # Guardar a linha original para logging
         line = line.strip()
 
-        if not line:
+        if not line or line in ('**', '*'):
             continue
 
-        # Ignorar linhas contendo apenas '**' ou '*'
-        if line.strip() in ('**', '*'):
-            continue
-
-        # Remover negrito e asteriscos desnecessários
-        line = re.sub(r'[\*\*\-]+', '', line).strip()
-
-        # Verificar se a linha é um par chave-valor
-        match = re.match(r'^[-\*\s]*(.+?):\s*(.*)', line)
+        # Check if line is a key
+        match = key_pattern.match(line)
         if match:
-            # Salvar o valor acumulado para a chave anterior, se houver
-            if current_key and value_accumulator:
-                data[current_key] = '\n'.join(value_accumulator).strip()
-                value_accumulator = []
-
             key = match.group(1).strip()
             value = match.group(2).strip()
 
-            # Normalizar a chave
+            # Normalize the key
             normalized_key = normalize_key(key)
             mapped_key = key_mapping.get(normalized_key)
 
             if mapped_key:
-                current_key = mapped_key
-                value_accumulator = []
-                if value:
-                    value_accumulator.append(value)
-            else:
-                current_key = None
-        elif re.match(r'^[-\*\s]+', line):
-            # Linha é um item de lista
-            list_item = re.sub(r'^[-\*\s]+', '', line).strip()
-            if current_key:
-                value_accumulator.append(list_item)
-            continue  # Ir para a próxima linha
-        else:
-            # Acumular valores para 'Suggested_Approach_Clinical_Psychologist'
-            if current_key and normalized_key == 'suggested_approach_clinical_psychologist':
-                value_accumulator.append(line)
-            elif current_key:
-                value_accumulator.append(line)
+                # Save the previous key's value
+                if current_key and value_accumulator:
+                    data[current_key] = '\n'.join(value_accumulator).strip()
+                    value_accumulator = []
 
-    # Salvar o último valor acumulado após processar todas as linhas
+                current_key = mapped_key
+                value_accumulator = [value] if value else []
+            else:
+                logging.debug(f"Unrecognized key '{key}' in agent '{agent_name}'")
+                current_key = None
+        elif line.startswith('-') or line.startswith('*') or re.match(r'^\d+\.', line):
+            # It's a list item (bullet or numbered)
+            if current_key:
+                value_accumulator.append(line.strip())
+        else:
+            # Continuation of the current key's value
+            if current_key:
+                value_accumulator.append(line.strip())
+
+    # Save the last accumulated value
     if current_key and value_accumulator:
         data[current_key] = '\n'.join(value_accumulator).strip()
-        logging.debug(f"Atualizando '{current_key}' com valores: {data[current_key]}")
 
-    # Extração do valor numérico para Emotional_Intensity_Patient_Experience_Expert
-    if 'Emotional_Intensity_Patient_Experience_Expert' in data and data['Emotional_Intensity_Patient_Experience_Expert']:
-        value = data['Emotional_Intensity_Patient_Experience_Expert']
-        numeric_value_match = re.search(r'([-+]?\d*\.?\d+)', value)
-        if numeric_value_match:
-            data['Emotional_Intensity_Patient_Experience_Expert'] = numeric_value_match.group(1)
-            logging.debug(f"Extraindo valor numérico para 'Emotional_Intensity_Patient_Experience_Expert': {numeric_value_match.group(1)}")
+    # Post-processing for specific fields to extract only the required information
+    # For 'Sentiment_Patient_Experience_Expert' and 'Urgency_Level_Patient_Experience_Expert', extract only the classification
+    if 'Sentiment_Patient_Experience_Expert' in data:
+        sentiment_match = re.search(r'\b(Positive|Neutral|Negative)\b', data['Sentiment_Patient_Experience_Expert'], re.IGNORECASE)
+        if sentiment_match:
+            data['Sentiment_Patient_Experience_Expert'] = sentiment_match.group(1).capitalize()
+        else:
+            data['Sentiment_Patient_Experience_Expert'] = data['Sentiment_Patient_Experience_Expert'].strip()
+
+    if 'Urgency_Level_Patient_Experience_Expert' in data:
+        urgency_match = re.search(r'\b(High|Medium|Low)\b', data['Urgency_Level_Patient_Experience_Expert'], re.IGNORECASE)
+        if urgency_match:
+            data['Urgency_Level_Patient_Experience_Expert'] = urgency_match.group(1).capitalize()
+        else:
+            data['Urgency_Level_Patient_Experience_Expert'] = data['Urgency_Level_Patient_Experience_Expert'].strip()
+
+    # For 'Emotional_Intensity_Patient_Experience_Expert', extract the numeric value
+    if 'Emotional_Intensity_Patient_Experience_Expert' in data:
+        intensity_match = re.search(r'([-+]?\d*\.?\d+)', data['Emotional_Intensity_Patient_Experience_Expert'])
+        if intensity_match:
+            data['Emotional_Intensity_Patient_Experience_Expert'] = intensity_match.group(1)
+        else:
+            data['Emotional_Intensity_Patient_Experience_Expert'] = data['Emotional_Intensity_Patient_Experience_Expert'].strip()
+
+    # Post-process the `Recommendations_Manager_and_Advisor` field if necessary.
+    if 'Recommendations_Manager_and_Advisor' in data:
+        # Ensure all lines are captured properly
+        data['Recommendations_Manager_and_Advisor'] = '\n'.join([line.strip() for line in value_accumulator if line]).strip()
+        logging.debug(f"Processed 'Recommendations_Manager_and_Advisor': {data['Recommendations_Manager_and_Advisor']}")
 
 def already_processed(feedback_id, existing_csv):
     if os.path.exists(existing_csv) and os.path.getsize(existing_csv) > 0:
@@ -231,7 +243,7 @@ def process_multiple_txts(directory, csv_output_path):
         df_new = pd.DataFrame(all_data)
 
         try:
-            # Criar o diretório de saída se não existir
+            # Create the output directory if it doesn't exist
             output_dir = os.path.dirname(csv_output_path)
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
@@ -250,9 +262,9 @@ def process_multiple_txts(directory, csv_output_path):
     else:
         print("No new data to process.")
 
-# Exemplo de uso
+# Example usage
 directory_with_txts = "D:\\OneDrive - InMotion - Consulting\\AI Projects\\AI-Clinical-Advisory-Crew\\data_reports"
 csv_output_path = "D:\\OneDrive - InMotion - Consulting\\AI Projects\\AI-Clinical-Advisory-Crew\\Dashboard\\processed_patient_feedback.csv"
 
-# Processar múltiplos arquivos TXT e salvar no CSV
+# Process multiple TXT files and save to CSV
 process_multiple_txts(directory_with_txts, csv_output_path)
