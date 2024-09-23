@@ -124,8 +124,11 @@ manager_agent = Agent(
     #llm=quwen_model, ** - fala demais nesta task
     inputs=["feedback"],
     system_prompt=(
-        "You are a Manager and Advisor. Your role is to consolidate expert feedback into a concise, non-redundant report. "
+        "You are a Manager and Advisor of the crews. Your role is to consolidate expert feedback into a concise, non-redundant report. "
         "Do not introduce new recommendations. Filter out similar suggestions from different agents and summarize the key points in bullet points."
+        "Limit responses as follows:\n"
+        "1. **Key Issues**: in bullet pointss.\n"
+        "2. **Recommendations**: in bullet points. "
     ),
     stop=stop_sequences,
     temperature=0.2

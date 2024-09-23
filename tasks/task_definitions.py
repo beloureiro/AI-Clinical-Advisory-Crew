@@ -118,8 +118,11 @@ consolidated_manager_task = Task(
         "Provide the consolidated recommendations, ensuring no redundant items are repeated."
     ),
     expected_output=(
-        "### Final Consolidated Report\n"
-        "* [Non-redundant recommendations from all agents]"
+        "|-- Non_Redundant_Recommendations_Manager_and_Advisor\n"
+        "|   |-- **Key Issues**:\n"
+        "|   |   |-- [in bullet points from experts]\n"
+        "|   |-- **Recommendations**:\n"
+        "|   |   |-- [in bullet points per key issue]"
     ),
     agent=manager_agent,
     inputs={"feedback"},
