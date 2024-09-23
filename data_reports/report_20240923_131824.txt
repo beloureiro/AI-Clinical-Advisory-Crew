@@ -1,0 +1,108 @@
+############################
+# AI Clinical Advisory Crew Report
+############################
+
+Patient Feedback: It wasn't a good experience, I booked my appointment in advance and the day before they contacted me to cancel because Dr. Leandro was having particular problems (no problems).
+
+They rescheduled days later and rescheduled the day before once again.
+
+Conclusion, now I was ignored on WhatsApp and left without a consultation. Huge waste of time.
+
+############################
+# Agent: Patient Experience Expert
+## Final Answer:
+**
+
+### Consolidated Patient Feedback Analysis
+* **Key Issues**:
+  - Issue 1: Multiple appointment reschedules without sufficient notice (twice in one case).
+  - Issue 2: Lack of communication regarding final appointment status, leading to ignored messages on WhatsApp and no consultation.
+* **Emotional Intensity**: -0.8 (Very negative)
+* **Sentiment**: Negative
+* **Urgency Level**: High
+
+############################
+# Agent: Health & IT Process Expert
+## Final Answer:
+### Consolidated Healthcare Process Analysis
+
+* **Patient Journey**:
+1. Booking an appointment with Dr. Leandro in advance.
+2. Receipt of a notification that day before the appointment confirming cancellation due to unforeseen circumstances (twice, for both stage 1 and stage 2).
+3. Rescheduling of appointments at unspecified times following stages 1 and 2.
+4. Final reschedule communication via an undeliverable WhatsApp message.
+5. Lack of consultation upon arriving for the final scheduled appointment.
+
+* **Inefficiencies in the healthcare process**:
+   - Inadequate communication management system leading to multiple notifications being sent out regarding cancellations without clear action items or follow-up steps.
+   - Insufficient coordination between different departments responsible for patient communications, resulting in double cancellations and missed appointments by patients.
+   - Lack of a proactive approach to handling appointment scheduling changes through effective rescheduling mechanisms that prioritize ensuring timely communication with the patient.
+
+* **Recommendations for process improvements**:
+   - Implement an automated communication system specifically designed for appointment management. This should include scheduled reminders, reschedule notifications, and canceled appointment alerts tailored for direct engagement through email or SMS rather than relying solely on WhatsApp messages.
+   - Establish cross-functional collaboration between departments managing appointments, patient communications, and IT to ensure seamless handling of changes in patient appointments without delays or overlaps.
+   - Introduce a centralized dashboard for managing all patient interactions that includes automated workflows for appointment confirmations, cancellations, and reschedules. This should feature real-time updates, prioritization of critical notifications based on urgency levels, and integration with existing communication tools like email, SMS, and digital platforms such as WhatsApp.
+
+By implementing these improvements, the healthcare institution can optimize its processes to minimize miscommunication, reduce patient frustration, and ensure that every appointment is managed efficiently from booking to completion.
+
+############################
+# Agent: Clinical Psychologist
+## Final Answer:
+### Consolidated Psychological Support Analysis
+* **Emotional State**: The patient expresses feelings of frustration, anger, and disappointment. They feel disrespected due to the lack of communication and follow-through from Dr. Leandro's office.  The wasted time further adds to their sense of futility and devaluation.
+
+* **Support Strategy**: Validate the patient's emotions by acknowledging the inconvenience and frustration they experienced. Offer sincere apologies for the mishandling of their appointment and emphasize a commitment to providing better service in the future. Explain that while unforeseen circumstances can arise, the communication breakdowns should have been handled differently. 
+
+* **Suggested Approach**:  
+1. **Empathetic Listening:** Begin by actively listening to the patient's concerns without interrupting. Demonstrate understanding by using phrases like "I can see how frustrating this must have been" or "It sounds like you feel very let down."
+2. **Validation:** Acknowledge their feelings and validate their experience: “It’s completely understandable that you’re upset. Having your appointment cancelled twice and then being ignored is unacceptable.”
+3. **Accountability & Apology:** Take responsibility for the shortcomings without making excuses. Offer a sincere apology for the inconvenience caused and assure them that steps will be taken to prevent this from happening again: “I sincerely apologize for the poor communication and the disruption to your schedule. We take full responsibility for these errors.” 
+4. **Rebooking & Resolution:** Reschedule the appointment promptly and offer a small token of apology, such as a discount on their next visit or a complimentary consultation. This shows that you value their time and are committed to making things right.  
+
+5. **Follow-up:** Contact the patient after their rescheduled appointment to ensure they had a positive experience and address any remaining concerns.
+
+
+This approach aims to repair the damaged trust, demonstrate empathy, and provide a solution that addresses the patient's needs while taking steps to improve the overall healthcare process.
+
+############################
+# Agent: Communication Expert
+## Final Answer:
+### Consolidated Communication Report
+* **Communication Quality:** Based on the patient's feedback, the communication quality is extremely poor. The patient experienced multiple cancellations without clear explanations and was left feeling ignored and disregarded. This indicates a significant breakdown in communication channels and patient care coordination.
+
+* **Issues Identified:** 
+    * **Unreliable Appointment Scheduling:** The appointment was cancelled twice, causing significant inconvenience to the patient.  This suggests issues with scheduling protocols and/or staff availability.
+    * **Inadequate Communication:** The patient received insufficient information about the reasons for the cancellations. Additionally, their attempts to communicate via WhatsApp were ignored, demonstrating a lack of responsiveness and attentiveness.
+    * **Lack of Empathy and Accountability:** The absence of an apology or explanation for the repeated disruptions suggests a lack of empathy towards the patient's situation and a failure to take responsibility for the errors.
+
+* **Suggested Improvements:** 
+    * **Implement Reliable Appointment Scheduling System:**  Invest in a robust scheduling system that minimizes cancellations and provides patients with timely confirmation and reminder notifications. 
+    * **Establish Clear Communication Protocols:**  Develop protocols for communicating appointment changes, including providing clear explanations and alternative options to patients. Utilize multiple communication channels (phone, email, SMS) to ensure patients receive important information.
+    * **Train Staff on Patient-Centered Communication:** Provide staff training on effective communication skills, including active listening, empathy, and clear explanation of medical procedures and policies. 
+    * **Implement a Feedback Mechanism:** Establish a system for gathering patient feedback and address concerns promptly. This can involve online surveys, suggestion boxes, or dedicated channels for patient communication.
+
+* **Final Recommendation:**  Prioritize a comprehensive review of the current communication strategies within Dr. Leandro's office. Implement the suggested improvements to enhance patient satisfaction, build trust, and foster a more positive healthcare experience.  Regularly evaluate and refine communication protocols based on patient feedback and evolving industry best practices.
+
+############################
+# Agent: Manager and Advisor
+## Final Answer:
+**
+
+### Final Consolidated Report
+
+* **Implement Reliable Appointment Scheduling System**
+    + Invest in a robust system to minimize cancellations.
+    + Provide patients with timely confirmation and reminder notifications.
+
+* **Establish Clear Communication Protocols**
+    + Develop protocols for communicating appointment changes.
+    + Utilize multiple communication channels (phone, email, SMS) to ensure patients receive important information.
+
+* **Train Staff on Patient-Centered Communication**
+    + Provide staff training on effective communication skills, including active listening and empathy.
+    + Ensure clear explanations of medical procedures and policies are provided to patients.
+
+Total execution time: 4 minutes and 6 seconds.
+############################
+# Consolidated Final Report
+############################
