@@ -1,0 +1,47 @@
+{
+    "patient_feedback": "Attention discrimination! Mothers are not helped here just because they have their child with them. Ms. Dr. Despite an appointment, Jach turned me away without treatment because I had my children with me. “She needs rest” was the only reason. My newborn was in the stroller sleeping and my three-year-old was sitting in the corner with a book reading. Seriously, how much more rest do you need?!! Thank you for wasting my time, as a mother you have so much of it.",
+    "total_execution_time": "3 minutes and 12 seconds",
+    "agents": [
+        {
+            "agent_name": "Patient Experience Expert",
+            "response": {
+                "Sentiment_Patient_Experience_Expert": "Negative",
+                "Emotional_Intensity_Patient_Experience_Expert": "-0.9",
+                "Urgency_Level_Patient_Experience_Expert": "High",
+                "Key_Issues_Patient_Experience_Expert": "Discrimination against mothers with children during appointments, suggesting a lack of inclusive care policies for families; Immediate dismissal or delay in treatment without proper consideration could indicate systemic issues within staff's approach to patient prioritization and rest requirements. There is an urgent need for policy review and training on non-discriminatory practices that respect the unique needs of patients with children, ensuring equitable healthcare access regardless of family status."
+            }
+        },
+        {
+            "agent_name": "Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN)",
+            "response": {
+                "Patient_Journey_Health_IT_Process_Expert": "The patient scheduled an appointment with Dr. Jach.; The patient arrived at the appointment with their newborn (sleeping in a stroller) and three-year-old (reading quietly).; Dr. Jach turned away the patient without treatment, stating \"She needs rest.\"",
+                "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert": "Discrimination against mothers with children during appointments.; Lack of clear policy regarding families in appointments.; Dismissal of patients without proper consideration for individual circumstances.",
+                "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert": "Implement a clear and inclusive policy regarding families in appointment settings.; Provide training to staff on non-discriminatory practices and family-friendly care.; Develop strategies to accommodate parents with young children, such as offering flexible appointment times or designated waiting areas."
+            }
+        },
+        {
+            "agent_name": "Clinical Psychologist",
+            "response": {
+                "Emotional_State_Clinical_Psychologist": "The patient's feedback indicates strong feelings of frustration, anger, and disappointment. They experienced unfair treatment and dismissal from an appointment solely because they brought their young children with them. This highlights deep emotional wounds around being judged and discriminated against as a mother trying to care for her family while seeking help.",
+                "Support_Strategy_Clinical_Psychologist": "To support the patient's emotional well-being, it is crucial to validate and acknowledge these painful feelings. Empathetic listening and expressing understanding are key. Reflecting back the gravity of being denied needed care due to motherhood stigma can help the patient feel heard and start healing that deep wound. Exploring the resilience she demonstrates in juggling parenting with self-care should be praised.",
+                "Suggested_Approach_Clinical_Psychologist": "Begin sessions by giving the patient space to express her frustration fully without judgment. Validate her feelings as valid reactions to an unfair situation.; As she shares more about her motherhood journey, note and praise how she keeps finding ways to care for herself and her children amidst challenges. Celebrate her resilience.; If she feels ready, explore coping strategies like journaling, support groups with other mothers, or hobbies that bring her joy and help offset stress. Encourage her to keep making time for self-care.; Gradually shift focus towards fostering self-compassion. Challenge any beliefs that being a mother means always putting others first at her own expense. Help her see the importance of prioritizing her mental health too. The patient's emotional state reveals a significant wound from being judged and denied care due to societal stigma against mothers. The support strategy must prioritize validating those feelings, praising resilience, and fostering self-compassion. By creating a safe space to express frustrations while also celebrating her strength, we can begin to heal this deep pain. Slowly shifting focus towards cultivating empathy for oneself is key for long-term emotional recovery from motherhood stigma."
+            }
+        },
+        {
+            "agent_name": "Communication Expert",
+            "response": {
+                "Communication_Quality_Communication_Expert": "Poor",
+                "Issues_Identified_Communication_Expert": "Lack of empathy and understanding towards the patient's situation as a mother.; Unfair discrimination based on accompaniment by young children, which breaches professional conduct.",
+                "Suggested_Improvements_Communication_Expert": "Implement clear policies regarding accompaniment by family members or children during appointments to avoid discriminatory practices.; Provide mandatory training for healthcare providers on cultural competency and bias detection/mitigation, with a focus on understanding the unique challenges faced by mothers seeking healthcare.",
+                "Final_Recommendation_Communication_Expert": "Mandate regular communication skills workshops focusing on empathetic listening, patient-centered care, and unconscious bias recognition. Additionally, establish an anonymous feedback system for patients to report instances of discriminatory behavior or poor communication, with strict protocols in place for investigation and resolution."
+            }
+        },
+        {
+            "agent_name": "Manager and Advisor",
+            "response": {
+                "Key_Issues_Manager_and_Advisor": "**; Lack of empathy and understanding towards mothers with young children during appointments.; Unfair discrimination based on accompaniment by young children.",
+                "Recommendations_Manager_and_Advisor": "**; Implement clear policies against discriminatory practices related to patient accompaniment during healthcare visits.; Provide mandatory training for healthcare providers focusing on cultural competency, bias detection, and mitigation, especially on understanding the unique challenges faced by mothers seeking healthcare services."
+            }
+        }
+    ]
+}

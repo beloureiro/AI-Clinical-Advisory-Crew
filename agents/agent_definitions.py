@@ -16,9 +16,9 @@ patient_experience_agent = Agent(
     # **** bom nesta task, objetivo 
     #llm=llama_model,
     #llm=hermes_model,**** bom mas poderia ser mais objetivo
-    llm=phi_model,   
+    #llm=phi_model,   
     #llm=gemma_model, ***** muito bom , objetivo
-    #llm=mistral_model, #***** muito bom nesta task
+    llm=mistral_model, #***** muito bom nesta task
     inputs=["feedback"],
     system_prompt=(
         "You are a Patient Experience Expert. Your task is to analyze patient feedback based on the input provided. "
