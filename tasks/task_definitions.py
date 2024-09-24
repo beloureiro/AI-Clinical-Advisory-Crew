@@ -9,6 +9,10 @@ consolidated_patient_experience_task = Task(
     description=(
         "As a Patient Experience Expert, analyze the following patient feedback and provide the information in the specified format:\n\n"
         "'{feedback}'\n\n"
+        "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your analysis accordingly:\n"
+        "- If the feedback is **positive**, focus on identifying key positive aspects of the patient's experience.\n"
+        "- If the feedback is **negative**, identify areas where the experience can be improved.\n"
+        "- If the feedback is **neutral**, look for potential areas of improvement or consistency in the patient’s experience.\n\n"
         "**Please provide your output in the exact format below, including the keys and colons. "
         "Do not include any additional text, explanations, or introductory sentences.**\n\n"
         "Sentiment_Patient_Experience_Expert: [Positive/Neutral/Negative]\n"
@@ -34,25 +38,25 @@ consolidated_patient_experience_task = Task(
 )
 
 # Agent 2 Tasks: Health & IT Process Expert
-# Revisado: Health & IT Process Expert com BPMN
 consolidated_process_task = Task(
     description=(
-        "As a Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN), analyze the following patient feedback, map the patient's lifecycle, identify inefficiencies, "
-        "and suggest improvements from all stakeholder perspectives, including IT systems:\n\n"
+        "As a Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN), analyze the following patient feedback, map the patient’s journey based on the feedback, and identify inefficiencies where applicable. "
+        "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your analysis and improvement suggestions accordingly:\n"
+        "- If the feedback is **positive**, focus on reinforcing best practices and suggest ways to maintain or further improve the strong points of the patient’s experience.\n"
+        "- If the feedback is **negative**, focus on identifying inefficiencies, problem areas, and suggest concrete improvements to address those pain points.\n"
+        "- If the feedback is **neutral**, look for potential areas of improvement to enhance the patient’s experience or maintain operational efficiency.\n\n"
         "'{feedback}'\n\n"
         "**Please provide your output in the exact format below, using bullet points (`-`) for lists. "
-        "Do not use numbered lists or include any additional text, explanations, or sections.**\n\n"
+        "Do not use numbered lists or include unnecessary text. If there are no inefficiencies or improvements to mention, write 'No inefficiencies' or 'No improvements needed'.**\n\n"
         "Patient_Journey_Health_IT_Process_Expert:\n"
-        "- [First step in the patient's journey]\n"
+        "- [First step in the patient’s journey, based on the feedback]\n"
         "- [Second step]\n"
         "- [Additional steps if applicable]\n"
         "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First inefficiency]\n"
-        "- [Second inefficiency]\n"
+        "- [If none, write 'No inefficiencies']\n"
         "- [Additional inefficiencies if applicable]\n"
         "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First suggestion]\n"
-        "- [Second suggestion]\n"
+        "- [If none, write 'No improvements needed']\n"
         "- [Additional suggestions if applicable]"
     ),
     expected_output=(
@@ -61,13 +65,11 @@ consolidated_process_task = Task(
         "- [Second step]\n"
         "- [Additional steps if applicable]\n"
         "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First inefficiency]\n"
-        "- [Second inefficiency]\n"
-        "- [Additional inefficiencies]\n"
+        "- No inefficiencies\n"
+        "- [Additional inefficiencies if applicable]\n"
         "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First improvement]\n"
-        "- [Second improvement]\n"
-        "- [Additional improvements]"
+        "- No improvements needed\n"
+        "- [Additional improvements if applicable]"
     ),
     agent=process_expert_agent,
     inputs={"feedback"},
@@ -81,6 +83,10 @@ consolidated_clinical_psychologist_task = Task(
     description=(
         "As a Clinical Psychologist, analyze the patient's emotional state based on the feedback, develop a tailored psychological support strategy, and propose an approach to address the emotional impact:\n\n"
         "'{feedback}'\n\n"
+        "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your support strategy accordingly:\n"
+        "- If the feedback is **positive**, focus on reinforcing emotional well-being and sustaining the positive state.\n"
+        "- If the feedback is **negative**, focus on addressing the emotional concerns and providing support to improve the patient’s emotional well-being.\n"
+        "- If the feedback is **neutral**, suggest strategies to maintain emotional balance or improve any subtle issues.\n\n"
         "**Please provide your output in the exact format below, including the keys and colons. "
         "Do not include any additional text or explanations.**\n\n"
         "Emotional_State_Clinical_Psychologist: [Describe the emotional state]\n"
@@ -109,6 +115,10 @@ consolidated_communication_task = Task(
     description=(
         "As a Communication Expert, evaluate the communication quality based on the patient feedback, identify any issues, and suggest improvements. Provide a final recommendation for improving communication strategies:\n\n"
         "'{feedback}'\n\n"
+        "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your communication analysis and suggestions accordingly:\n"
+        "- If the feedback is **positive**, focus on identifying best communication practices and reinforcing them.\n"
+        "- If the feedback is **negative**, focus on addressing communication breakdowns and propose improvements.\n"
+        "- If the feedback is **neutral**, suggest strategies to maintain or slightly improve the quality of communication.\n\n"
         "**Please provide your output in the exact format below, including the keys and colons. "
         "Do not include any additional text, explanations, or introductory sentences.**\n\n"
         "Communication_Quality_Communication_Expert: [Excellent/Good/Fair/Poor]\n"
@@ -142,6 +152,10 @@ consolidated_manager_task = Task(
     description=(
         "As a Manager and Advisor, create a concise report by filtering out redundant recommendations from the expert feedback. Summarize the key points in bullet points, with no more than two sentences per item:\n\n"
         "'{feedback}'\n\n"
+        "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your summary accordingly:\n"
+        "- If the feedback is **positive**, focus on key successes and suggestions to maintain them.\n"
+        "- If the feedback is **negative**, highlight key issues and propose effective solutions.\n"
+        "- If the feedback is **neutral**, summarize the feedback with an emphasis on maintaining or improving operational consistency.\n\n"
         "**Please provide your output in the exact format below, including the keys and colons. "
         "Do not include any additional text, explanations, or introductory sentences.**\n\n"
         "Key_Issues_Manager_and_Advisor:\n"

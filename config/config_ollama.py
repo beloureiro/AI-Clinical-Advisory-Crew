@@ -12,4 +12,6 @@ gemma_model = "ollama/gemma2:9b"
 openhermes_model = "ollama/openhermes:latest"
 mistral_model = "ollama/mistral-nemo:latest"
 quwen_model = "ollama/qwen2:7b"
+llava_model = "ollama/llava:7b"
+zephyr_model = "ollama/zephyr:7b"
 #----------------------------------
