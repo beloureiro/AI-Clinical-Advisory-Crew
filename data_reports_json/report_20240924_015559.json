@@ -1,0 +1,26 @@
+{
+    "patient_feedback": "Extremely unfriendly lady at reception who is absolutely not helpful and is not willing to help. Seems totally annoyed. Unfortunately, the reception is the first point you come across in practice.",
+    "total_execution_time": "2 minutes and 43 seconds",
+    "agents": [
+        {
+            "agent_name": "Patient Experience Expert",
+            "response": "Sentiment_Patient_Experience_Expert: Negative\nEmotional_Intensity_Patient_Experience_Expert: -0.9 (Highly negative)\nUrgency_Level_Patient_Experience_Expert: High (As the reception is the first point of contact)\nKey_Issues_Patient_Experience_Expert:\n- Unfriendly attitude of the receptionist\n- Lack of willingness to help, making the patient feel annoyed"
+        },
+        {
+            "agent_name": "Health & IT Process Expert",
+            "response": "Patient_Journey_Health_IT_Process_Expert:\n- Arrival at healthcare facility\n- Interaction with receptionist upon entering\nInefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n- Inefficient communication skills or untrained staff at the reception desk leading to poor patient experience\n- Lack of standardized training for customer service representatives in healthcare settings, resulting in inconsistent treatment and attitude towards patients\nImprovement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n- Implement comprehensive customer service training programs for all staff involved in direct patient interaction, focusing on empathy, communication skills, and conflict resolution\n- Establish clear guidelines or protocols for receptionists to ensure they address patients' needs promptly and provide guidance throughout their visit\n- Incorporate feedback mechanisms (e.g., online surveys) to regularly gather insights from patients regarding their experiences with healthcare staff"
+        },
+        {
+            "agent_name": "Clinical Psychologist",
+            "response": "Emotional_State_Clinical_Psychologist: The patient expresses feelings of frustration, anger, and possibly anxiety due to their negative interaction with the receptionist. They may also feel unheard and disregarded.  \nSupport_Strategy_Clinical_Psychologist: Validate the patient's emotions by acknowledging their experience and demonstrating empathy. Help them identify coping mechanisms for managing anger and frustration in similar situations. \nSuggested_Approach_Clinical_Psychologist:\n- Encourage the patient to express their feelings openly about the encounter.\n- Normalize their feelings, explaining that it's understandable to feel upset by such an experience.\n- Discuss healthy coping strategies, such as deep breathing exercises or mindfulness techniques, to manage anger and frustration in the moment."
+        },
+        {
+            "agent_name": "Communication Expert",
+            "response": "Communication_Quality_Communication_Expert: Poor\nIssues_Identified_Communication_Expert:\n- Unfriendly and unhelpful receptionist behavior.\n- Receptionist appears annoyed and unwilling to assist patients.\nSuggested_Improvements_Communication_Expert:\n- Implement customer service training for reception staff, focusing on empathy, active listening, and positive communication techniques. \n- Establish clear guidelines and protocols for patient interaction at the reception desk to ensure consistent and professional service.\nFinal_Recommendation_Communication_Expert:  Prioritize investing in comprehensive communication skills training for all staff, particularly those interacting with patients at the first point of contact, to create a welcoming and supportive environment."
+        },
+        {
+            "agent_name": "Manager and Advisor",
+            "response": "Key_Issues_Manager_and_Advisor:\n- Unfriendly and unhelpful receptionist behavior.\nRecommendations_Manager_and_Advisor:\n- Implement customer service training for reception staff focusing on empathy, active listening, and positive communication techniques."
+        }
+    ]
+}

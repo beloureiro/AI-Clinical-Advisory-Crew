@@ -1,6 +1,58 @@
-import time
-from datetime import datetime
+import json
 import os
+from datetime import datetime
+import time  # Adicionar a biblioteca necessária para calcular o tempo
+
+
+def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
+    """
+    Gera um relatório consolidado em formato JSON e o salva na pasta especificada
+    'D:\\OneDrive - InMotion - Consulting\\AI Projects\\AI-Clinical-Advisory-Crew\\data_reports_json'.
+    O nome do arquivo será baseado na data e hora, e cada agente terá suas respostas organizadas
+    de forma que possa ser lido posteriormente para compilação em CSV.
+    """
+    # Gera o nome do arquivo com base na data e hora (incluindo segundos)
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"report_{current_time}.json"
+
+    # Define o diretório onde o arquivo será salvo
+    directory = r"D:\OneDrive - InMotion - Consulting\AI Projects\AI-Clinical-Advisory-Crew\data_reports_json"
+    
+    # Cria o caminho completo do arquivo
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    file_path = os.path.join(directory, file_name)
+
+    # Converte o tempo total em minutos e segundos
+    minutes = int(total_duration // 60)
+    seconds = int(total_duration % 60)
+    
+    # Estrutura do JSON
+    report_data = {
+        "patient_feedback": patient_feedback,
+        "total_execution_time": f"{minutes} minutes and {seconds} seconds",
+        "agents": []
+    }
+    
+    # Informações de cada agente e suas respostas
+    for task_result in tasks_output:
+        agent = task_result.agent
+        agent_name = agent if isinstance(agent, str) else agent.role
+        response = task_result.raw if hasattr(task_result, 'raw') else "No response available"
+
+        # Adiciona as respostas do agente no formato JSON
+        report_data["agents"].append({
+            "agent_name": agent_name,
+            "response": response
+        })
+
+    # Salva o arquivo JSON
+    with open(file_path, "w", encoding='utf-8') as json_file:
+        json.dump(report_data, json_file, ensure_ascii=False, indent=4)
+
+    print(f"Report saved as JSON: {file_name}")
+    return file_name  # Retorna o nome do arquivo que pode ser usado como ID para a base de dados
+
 
 def format_output_with_agent_and_model(agent, model, response):
     """Formata a saída com o nome do agente e o modelo LLM utilizado."""

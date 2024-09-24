@@ -1,0 +1,26 @@
+{
+    "patient_feedback": "Catastrophe since Fr. Dr. Sommerfeld is no longer there. A helper seems hard-working and competent. The others sitting at the front are loudly having private conversations or phone calls. For example, when is the next nail appointment? Then of course there is no time to answer the phone. Ms. Dr. Breitwieser seems to want to choose her patients carefully. I tried to give this lady a leap of faith several times, each time in vain. Very condescending, very dismissive, zero empathy. My family had the same impressions. You couldn't even look at the entry of the last appointment shortly beforehand and so you didn't know at all what was discussed at the last appointment. Sometimes it becomes very rude. Like you're a stupid little child. If you have high blood pressure, you can't even measure your blood pressure on site if you have acute symptoms. Just a small excerpt of all the very disappointing and unpleasant things I had to experience there.",
+    "total_execution_time": "3 minutes and 41 seconds",
+    "agents": [
+        {
+            "agent_name": "Patient Experience Expert",
+            "response": "**\n\nSentiment_Patient_Experience_Expert: Negative\nEmotional_Intensity_Patient_Experience_Expert: -0.9 (Highly negative)\nUrgency_Level_Patient_Experience_Expert: High\n\nKey_Issues_Patient_Experience_Expert:\n- Lack of empathy and dismissive attitude from Ms. Dr. Breitwieser\n- Disruptive behavior by staff at the front, hindering patient care (e.g., loud conversations, phone calls)\n- Inadequate communication regarding previous appointments and lack of on-site blood pressure measurement for acute symptoms"
+        },
+        {
+            "agent_name": "Health & IT Process Expert",
+            "response": "The patient's journey faced significant inefficiencies due to staff behavior, communication gaps, and lack of empathy from Ms. Dr. Breitwieser. To address these issues, healthcare facilities should focus on enhancing front desk training, standardizing professional conduct among medical practitioners, and integrating automated systems into the electronic health record (EHR) that support smoother patient care processes."
+        },
+        {
+            "agent_name": "Clinical Psychologist",
+            "response": "Emotional_State_Clinical_Psychologist:  The patient expresses feelings of frustration, anger, disappointment, and helplessness. There is a clear sense of powerlessness due to the perceived lack of control over their healthcare experience. \nSupport_Strategy_Clinical_Psychologist: Validation of the patient's feelings is crucial. The strategy should focus on empowering the patient by providing coping mechanisms for dealing with difficult situations in medical settings, exploring alternative healthcare options, and advocating for improved communication and empathy within the system.\nSuggested_Approach_Clinical_Psychologist:\n-  Acknowledge and validate the patient's negative experiences, emphasizing that their feelings are understandable given the circumstances.\n-  Help the patient develop coping strategies to manage frustration and anger in similar situations in the future (e.g., relaxation techniques, assertive communication). \n-  Explore alternative healthcare providers or clinics with a focus on patient-centered care.  \n- Encourage the patient to document their experiences and consider filing a formal complaint with the relevant medical board or organization to advocate for systemic change."
+        },
+        {
+            "agent_name": "Communication Expert",
+            "response": "Communication_Quality_Communication_Expert: Poor\nIssues_Identified_Communication_Expert:\n-  Lack of respect and empathy from Dr. Breitwieser.\n- Inefficient office procedures leading to missed appointments and communication breakdowns. \nSuggested_Improvements_Communication_Expert:\n- Implement mandatory training for staff on patient communication and empathy.\n- Develop a system to ensure timely responses to phone calls and appointment scheduling.  \nFinal_Recommendation_Communication_Expert: A comprehensive overhaul of the practice's communication protocols is necessary to address these issues and improve patient satisfaction."
+        },
+        {
+            "agent_name": "Manager and Advisor",
+            "response": "**\n\nKey_Issues_Manager_and_Advisor:\n- Lack of respect and empathy from Dr. Breitwieser.\n- Inadequate communication protocols leading to missed appointments and breakdowns.\nRecommendations_Manager_and_Advisor:\n- Mandatory training for staff on patient communication and empathy.\n- Implementation of a system to ensure timely responses to phone calls and appointment scheduling.\n- Regularly review and update office procedures to improve efficiency."
+        }
+    ]
+}
