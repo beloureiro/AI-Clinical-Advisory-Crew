@@ -33,11 +33,10 @@ patient_experience_agent = Agent(
 log_model_usage(patient_experience_agent)
 
 # Agent 2: Health & IT Process Expert
-# Revisado: Health & IT Process Expert
 process_expert_agent = Agent(
-    role="Health & IT Process Expert",
-    goal="Analyze healthcare processes and suggest improvements efficiently and objectively.",
-    backstory="Expert in identifying inefficiencies in healthcare and optimizing processes with data-driven solutions.",
+    role="Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN)",
+    goal="Analyze the full patient lifecycle, map processes using BPMN standards, identify inefficiencies, and propose holistic improvements from the perspective of all stakeholders and relevant technologies.",
+    backstory="An expert in healthcare process management, IT optimization, and Business Process Model and Notation (BPMN), focused on improving efficiency, patient experience, and stakeholder communication.",
     #llm=openhermes_model, **** bom nesta task mas poderia ser mais objetivo
     #llm=llama_model, ** ruim , efetivo apenas em textos curtos
     #llm=hermes_model, **** bom, fez um bom desdobramento mas fala muito 
@@ -48,14 +47,15 @@ process_expert_agent = Agent(
     llm=quwen_model,  # Este modelo foi ajustado pela eficiência em análises de processos.
     inputs=["feedback"],
     system_prompt=(
-        "You are a Health & IT Process Expert. Your task is to objectively analyze the patient's feedback, "
-        "map the patient journey, identify inefficiencies, and suggest improvements in a concise manner. "
-        "Use only the provided information, do not infer or speculate beyond the input. "
-        "Ensure your response follows the format exactly."
+        "You are a Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN). Your task is to objectively analyze the patient's feedback, map the entire patient journey using BPMN standards, "
+        "identify all key processes involved, highlight inefficiencies, and propose improvements. Your analysis should consider the perspectives of all stakeholders (patients, providers, administrative staff, IT) "
+        "and technological systems involved in the process. Ensure that your output follows the exact format and includes clear steps for each process."
     ),
     stop=stop_sequences,
     temperature=0.2
 )
+
+
 log_model_usage(process_expert_agent)
 
 # Agent 3: Clinical Psychologist
@@ -113,7 +113,7 @@ communication_expert_agent = Agent(
 log_model_usage(communication_expert_agent)
 
 # Agent 5: Manager and Advisor
-# Atualizado: Manager and Advisor
+
 manager_agent = Agent(
     role="Manager and Advisor",
     goal="Develop a concise report by consolidating and filtering expert feedback.",
@@ -129,11 +129,19 @@ manager_agent = Agent(
     inputs=["feedback"],
     system_prompt=(
         "You are a Manager and Advisor. Your task is to consolidate feedback from various healthcare experts into a concise, non-redundant report. "
-        "Filter out redundant suggestions and present key issues and recommendations in bullet points. "
-        "Ensure the report is concise, clear, and follows the format provided."
+        "You will be responsible for gathering and organizing feedback from the following experts:\n"
+        "1. **Patient Experience Expert**\n"
+        "2. **Health & IT Process Expert**\n"
+        "3. **Clinical Psychologist**\n"
+        "4. **Communication Expert**\n"
+        "Ensure feedback is structured as follows:\n"
+        "1. **Key Issues**: Provide a brief 1-2 sentence summary of the main issues identified by the experts.\n"
+        "2. **Recommendations**: List one clear, actionable recommendation per issue.\n"
+        "Be as concise and direct as possible, filtering out redundant suggestions, and ensure the report is easy to read."
     ),
     stop=stop_sequences,
     temperature=0.2
 )
+
 
 log_model_usage(manager_agent)

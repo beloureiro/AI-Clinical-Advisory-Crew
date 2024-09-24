@@ -34,46 +34,47 @@ consolidated_patient_experience_task = Task(
 )
 
 # Agent 2 Tasks: Health & IT Process Expert
+# Revisado: Health & IT Process Expert com BPMN
 consolidated_process_task = Task(
     description=(
-        "As a Health & IT Process Expert, analyze the following patient feedback to map the patient's journey, identify inefficiencies, and suggest improvements:\n\n"
+        "As a Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN), analyze the following patient feedback, map the patient's lifecycle, identify inefficiencies, "
+        "and suggest improvements from all stakeholder perspectives, including IT systems:\n\n"
         "'{feedback}'\n\n"
         "**Please provide your output in the exact format below, using bullet points (`-`) for lists. "
         "Do not use numbered lists or include any additional text, explanations, or sections.**\n\n"
         "Patient_Journey_Health_IT_Process_Expert:\n"
-        "- [First step in patient's journey]\n"
+        "- [First step in the patient's journey]\n"
         "- [Second step]\n"
         "- [Additional steps if applicable]\n"
         "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First inefficiency identified]\n"
-        "- [Second inefficiency if applicable]\n"
+        "- [First inefficiency]\n"
+        "- [Second inefficiency]\n"
         "- [Additional inefficiencies if applicable]\n"
         "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First suggestion based on inefficiencies]\n"
-        "- [Second suggestion if applicable]\n"
+        "- [First suggestion]\n"
+        "- [Second suggestion]\n"
         "- [Additional suggestions if applicable]"
     ),
     expected_output=(
         "Patient_Journey_Health_IT_Process_Expert:\n"
-        "- [First step in patient's journey]\n"
+        "- [First step]\n"
         "- [Second step]\n"
         "- [Additional steps if applicable]\n"
         "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First inefficiency identified]\n"
-        "- [Second inefficiency if applicable]\n"
-        "- [Additional inefficiencies if applicable]\n"
+        "- [First inefficiency]\n"
+        "- [Second inefficiency]\n"
+        "- [Additional inefficiencies]\n"
         "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
-        "- [First suggestion based on inefficiencies]\n"
-        "- [Second suggestion if applicable]\n"
-        "- [Additional suggestions if applicable]"
+        "- [First improvement]\n"
+        "- [Second improvement]\n"
+        "- [Additional improvements]"
     ),
     agent=process_expert_agent,
     inputs={"feedback"},
     force_output=True,
     output_format="text",
-    max_tokens=250
+    max_tokens=300
 )
-
 
 # Agent 3 Tasks: Clinical Psychologist
 consolidated_clinical_psychologist_task = Task(

@@ -5,6 +5,7 @@ from utils import (
     format_task_descriptions, execute_agents, 
     save_consolidated_report, save_agent_results_as_json  # Importa a função de salvar JSON
 )
+from Dashboard.Db_integration import DbIntegration  # Importe a nova classe
 
 def execute_crew():
     start_time = time.time()  # Início da execução
@@ -49,6 +50,13 @@ def execute_crew():
     # **NOVO: Salva o relatório consolidado em um arquivo JSON**
     report_json_name = save_agent_results_as_json(patient_feedback, result.tasks_output, total_duration)
     print(f"Report saved as JSON: {report_json_name}")  # Exibe o nome do arquivo JSON gerado
+
+    # Adicione estas linhas para processar o JSON e atualizar o CSV
+    json_directory = "D:\\OneDrive - InMotion - Consulting\\AI Projects\\AI-Clinical-Advisory-Crew\\data_reports_json"
+    csv_output_path = "D:\\OneDrive - InMotion - Consulting\\AI Projects\\AI-Clinical-Advisory-Crew\\DB\\consolidated_patient_feedback.csv"
+    
+    db_integration = DbIntegration(json_directory, csv_output_path)
+    db_integration.process_multiple_jsons()
 
 if __name__ == "__main__":
     execute_crew()
