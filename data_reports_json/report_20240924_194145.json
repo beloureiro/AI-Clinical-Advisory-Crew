@@ -6,7 +6,7 @@
             "agent_name": "Patient Experience Expert",
             "response": {
                 "Sentiment_Patient_Experience_Expert": "Positive",
-                "Emotional_Intensity_Patient_Experience_Expert": "[0.8]",
+                "Emotional_Intensity_Patient_Experience_Expert": "0.8",
                 "Urgency_Level_Patient_Experience_Expert": "Low",
                 "Key_Issues_Patient_Experience_Expert": "Clinic cleanliness appreciated by the patient; Staff efficiency acknowledged positively"
             }

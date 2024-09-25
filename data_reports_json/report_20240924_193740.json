@@ -15,7 +15,7 @@
             "agent_name": "Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN)",
             "response": {
                 "Patient_Journey_Health_IT_Process_Expert": "Patient chooses the clinic based on positive reputation.; Patient receives top-notch care from the medical staff.; Patient interacts with friendly and helpful staff throughout the visit.",
-                "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert": "No inefficiencies; [Additional inefficiencies if applicable]",
+                "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert": "No inefficiencies",
                 "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert": "Continue to prioritize excellent care quality and training for staff on patient interaction best practices.; Explore opportunities to further enhance the patient experience, such as offering refreshments or comfortable waiting areas."
             }
         },

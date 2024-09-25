@@ -8,7 +8,7 @@ Patient Feedback: I'm so glad I chose this clinic. The care was top-notch, and e
 # Agent: Patient Experience Expert
 ## Final Answer:
 Sentiment_Patient_Experience_Expert: Positive
-Emotional_Intensity_Patient_Experience_Expert: [0.9]
+Emotional_Intensity_Patient_Experience_Expert: 0.9
 Urgency_Level_Patient_Experience_Expert: Low
 Key_Issues_Patient_Experience_Expert: 
 - Excellent care quality received at the clinic, leading to high patient satisfaction (Top Notch Care)

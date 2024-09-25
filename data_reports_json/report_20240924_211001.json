@@ -30,12 +30,12 @@
         {
             "agent_name": "Communication Expert",
             "response": {
-                "Communication_Quality_Communication_Expert": "** Poor",
-                "Issues_Identified_Communication_Expert": "**; The healthcare professional frequently interrupted the patient during conversation.; There was a lack of active listening, leading to the patient feeling unheard and frustrated.",
-                "Suggested_Improvements_Communication_Expert": "**; Implement a \"no-interruption\" policy for a set period (e.g., three minutes) at the beginning of each interaction to allow patients to express themselves fully without interruption.; Use active listening techniques, such as paraphrasing and summarizing what the patient has said, to demonstrate understanding and engagement with their concerns.; Regularly check in with the patient about their emotional state during conversations to ensure they feel heard and supported.",
-                "Final_Recommendation_Communication_Expert": "** To improve communication strategies, healthcare professionals should prioritize active listening techniques and minimize interruptions. Implementing structured time for uninterrupted patient expression and regular emotional check-ins can significantly enhance patient satisfaction and trust in the therapeutic relationship. Regular training and reinforcement of these communication practices will help foster a culture of empathetic and patient-centered care."
+                "Communication_Quality_Communication_Expert": "Poor",
+                "Issues_Identified_Communication_Expert": "The healthcare professional frequently interrupted the patient during conversation.; There was a lack of active listening, leading to the patient feeling unheard and frustrated.",
+                "Suggested_Improvements_Communication_Expert": "Implement a 'no-interruption' policy for a set period (e.g., three minutes) at the beginning of each interaction to allow patients to express themselves fully without interruption.; Use active listening techniques, such as paraphrasing and summarizing what the patient has said, to demonstrate understanding and engagement with their concerns.; Regularly check in with the patient about their emotional state during conversations to ensure they feel heard and supported.",
+                "Final_Recommendation_Communication_Expert": "To improve communication strategies, healthcare professionals should prioritize active listening techniques and minimize interruptions. Implementing structured time for uninterrupted patient expression and regular emotional check-ins can significantly enhance patient satisfaction and trust in the therapeutic relationship. Regular training and reinforcement of these communication practices will help foster a culture of empathetic and patient-centered care."
             }
-        },
+        },        
         {
             "agent_name": "Manager and Advisor",
             "response": {

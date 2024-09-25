@@ -24,9 +24,9 @@
             "response": {
                 "Emotional_State_Clinical_Psychologist": "The patient's emotional state is one of deep pain, abandonment, and confusion due to being sent away without words or explanation for their situation.",
                 "Support_Strategy_Clinical_Psychologist": "My psychological support strategy would involve offering the patient a safe space to express their emotions and feelings about being dismissed without understanding. I would work on validating their pain, even if I don't have all the answers yet. Providing empathetic active listening, acknowledging their right to feel hurt and confused in this situation.",
-                "Suggested_Approach_Clinical_Psychologist": ""
+                "Suggested_Approach_Clinical_Psychologist": "First approach step: Set up a private session with the patient to provide them my full attention and focus on their emotional needs at this time.; Second approach step: Gently ask the patient to share their experience of being sent away, validating any hurt or confusion they are feeling without judgment. Use reflective listening to show I'm fully present and attuned to their pain.; Additional steps if applicable: Depending on what more I learn about their situation and emotional state, could provide some initial thoughts and validation around their pain but also offer them hope that they can make sense of this experience with time and support. Empower the patient that they have a right to feel heard and understood in their suffering. Help connect them to any other resources or supports they may need at this difficult time."
             }
-        },
+        },        
         {
             "agent_name": "Communication Expert",
             "response": {
