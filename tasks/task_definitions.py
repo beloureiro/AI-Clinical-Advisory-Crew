@@ -7,6 +7,7 @@ from agents.agent_definitions import (
 # Agent 1 Tasks: Patient Experience Expert
 consolidated_patient_experience_task = Task(
     description=(
+        "Always match the emotional intensity and urgency level with what is explicitly stated by the patient. Avoid interpreting the situation as more or less urgent or emotional than described. Focus on delivering an interpretation that remains true to the patient's exact wording and tone."
         "As a Patient Experience Expert, analyze the following patient feedback and provide the information in the specified format. "
         "Ensure that you insert the data directly into the corresponding keys/columns without adding any explanations, commentary, or unnecessary details outside of the expected format:\n\n"
         "'{feedback}'\n\n"
@@ -40,6 +41,7 @@ consolidated_patient_experience_task = Task(
 # Agent 2 Tasks: Health & IT Process Expert
 consolidated_process_task = Task(
     description=(
+        "Strictly adhere to the details provided in the feedback when mapping the patient’s journey. Avoid adding assumptions or inferred actions that are not explicitly mentioned. Focus on ensuring every step described is directly tied to the feedback without introducing new events or steps."
         "As a Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN), analyze the following patient feedback, map the patient’s journey based on the feedback, and identify inefficiencies where applicable. "
         "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your analysis and improvement suggestions accordingly:\n"
         "- If the feedback is **positive**, focus on reinforcing best practices and suggest ways to maintain or further improve the strong points of the patient’s experience.\n"
@@ -80,6 +82,7 @@ consolidated_process_task = Task(
 # Agent 3 Tasks: Clinical Psychologist
 consolidated_clinical_psychologist_task = Task(
     description=(
+        "Base your interpretation on the emotions directly expressed by the patient. Do not speculate on additional emotional states or reactions unless clearly stated. Ensure that your support strategies align with the patient's expressed feelings without introducing assumptions."
         "As a Clinical Psychologist, analyze the patient's emotional state based on the feedback, develop a tailored psychological support strategy, and propose an approach to address the emotional impact:\n\n"
         "'{feedback}'\n\n"
         "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your support strategy accordingly:\n"
@@ -111,6 +114,7 @@ consolidated_clinical_psychologist_task = Task(
 # Agent 4 Tasks: Communication Expert
 consolidated_communication_task = Task(
     description=(
+        "Focus on identifying and addressing communication issues based solely on what the patient described. Do not infer problems that aren't clearly mentioned. Ensure that your recommendations are rooted in improving the specific communication breakdowns highlighted by the patient."
         "As a Communication Expert, evaluate the communication quality based on the patient feedback, identify any issues, and suggest improvements. Provide a final recommendation for improving communication strategies:\n\n"
         "'{feedback}'\n\n"
         "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your communication analysis and suggestions accordingly:\n"
@@ -147,6 +151,8 @@ consolidated_communication_task = Task(
 # Agent 5 Tasks: Manager and Advisor
 consolidated_manager_task = Task(
     description=(
+        "Provide recommendations that directly address the key issues stated by the patient. Avoid introducing solutions for problems that were not explicitly identified in the feedback. Focus on practical, actionable advice that is grounded in the patient's own experience."
+
         "As a Manager and Advisor, create a concise report by filtering out redundant recommendations from the expert feedback. Summarize the key points in bullet points, with no more than two sentences per item:\n\n"
         "'{feedback}'\n\n"
         "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your summary accordingly:\n"

@@ -81,15 +81,8 @@ def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
                 return expected_key
         return None
 
-    # Processar cada tarefa do agente
-    for task_result in tasks_output:
-        agent = task_result.agent
-        agent_name = agent if isinstance(agent, str) else agent.role
-
-        # Extrair resposta do agente
-        response = task_result.raw if hasattr(task_result, 'raw') else None
-
-        # Inicializa a resposta do agente
+    # Função para processar o output de resposta de cada agente
+    def process_agent_response(response, agent_name):
         agent_data = {
             "agent_name": agent_name,
             "response": {}
@@ -100,58 +93,62 @@ def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
         else:
             lines = response.split('\n')
             current_field = None
+            collecting_list = False  # Variável para lidar com itens de lista
+
             for line in lines:
                 line = line.strip()
                 if not line:
                     continue
+                
+                # Se a linha contém um campo com valor
                 if ':' in line:
-                    # Para linhas que contêm um campo com valor
                     key, value = map(str.strip, line.split(':', 1))
                     matched_key = match_key(agent_name, key)
                     if matched_key:
+                        # Atualiza o campo atual, reiniciando qualquer lista
                         agent_data["response"][matched_key] = value
-                        current_field = matched_key  # Armazena o campo atual
+                        current_field = matched_key
+                        collecting_list = False  # Reinicia o status de lista
                     else:
                         current_field = None
+                
+                # Se a linha começa com "-" (indicando lista)
                 elif line.startswith('-') and current_field:
-                    # Adiciona itens de lista aos campos correspondentes
                     item = line.strip('- ').strip()
-                    if agent_data["response"][current_field]:
-                        agent_data["response"][current_field] += f"; {item}"
+                    if not collecting_list:
+                        # Se este é o primeiro item da lista
+                        agent_data["response"][current_field] = f"- {item}"
+                        collecting_list = True
                     else:
-                        agent_data["response"][current_field] = item
-                else:
-                    # Lógica adicional para Manager and Advisor
-                    if agent_name == "Manager and Advisor":
-                        if line.startswith("The key issues identified are"):
-                            current_field = "Key_Issues_Manager_and_Advisor"
-                            value = line[len("The key issues identified are"):].strip()
-                            agent_data["response"][current_field] = value
-                        elif line.startswith("Recommendations include"):
-                            current_field = "Recommendations_Manager_and_Advisor"
-                            value = line[len("Recommendations include"):].strip()
-                            agent_data["response"][current_field] = value
-                        elif current_field:
-                            # Continua adicionando ao campo atual
-                            if agent_data["response"][current_field]:
-                                agent_data["response"][current_field] += f" {line.strip()}"
-                            else:
-                                agent_data["response"][current_field] = line.strip()
-                        else:
-                            continue
-                    elif current_field:
-                        # Lógica existente para anexar ao campo atual
-                        if agent_data["response"][current_field]:
-                            agent_data["response"][current_field] += f" {line.strip()}"
-                        else:
-                            agent_data["response"][current_field] = line.strip()
+                        # Caso já esteja coletando itens da lista, anexa ao campo atual
+                        agent_data["response"][current_field] += f"\n- {item}"
+                
+                # Se a linha faz parte de um campo existente, mas não é uma lista
+                elif current_field:
+                    # Anexa conteúdo adicional ao campo atual
+                    if collecting_list:
+                        agent_data["response"][current_field] += f"\n  {line.strip()}"
                     else:
-                        continue
+                        agent_data["response"][current_field] += f" {line.strip()}"
 
-        # Limpa campos que terminaram com ";" extra
+        # Limpa campos que terminaram com ";" extra ou com espaços adicionais
         for field in agent_fields.get(agent_name, []):
             agent_data["response"][field] = clean_up_field(agent_data["response"].get(field, ""))
 
+        return agent_data
+
+    # Processar cada tarefa do agente
+    for task_result in tasks_output:
+        agent = task_result.agent
+        agent_name = agent if isinstance(agent, str) else agent.role
+
+        # Extrair resposta do agente
+        response = task_result.raw if hasattr(task_result, 'raw') else None
+
+        # Processa a resposta do agente
+        agent_data = process_agent_response(response, agent_name)
+        
+        # Adiciona os dados processados ao relatório final
         report_data["agents"].append(agent_data)
 
     # Salva o arquivo JSON
@@ -160,13 +157,6 @@ def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
 
     print(f"Report saved as JSON: {file_name}")
     return file_name
-
-
-
-
-
-
-
 
 # Funções auxiliares adicionais
 def format_output_with_agent_and_model(agent, model, response):
@@ -267,5 +257,12 @@ def save_consolidated_report(patient_feedback, tasks_output, total_duration):
         report_file.write("############################\n")
         report_file.write("# Consolidated Final Report\n")
         report_file.write("############################\n")
+
+        # Inclui o disclaimer no final do relatório
+        report_file.write("\nDisclaimer\n")
+        report_file.write("The analyses in this report were conducted by different LLM models in training mode, which take patient feedback as absolute truth. ")
+        report_file.write("Feedback reflects the patient's individual perception and, in some cases, may not capture the full complexity of the situation, including institutional and contextual factors.\n")
+        report_file.write("AI Clinical Advisory Crew framework, beyond providing technical analyses, acts as a strategic driver, steering managerial decisions across various operational areas.\n")
+        report_file.write("The reader is responsible for validating the feasibility of the suggested actions and their alignment with stakeholder objectives.\n")
 
     return file_name  # Retorna o nome do arquivo que pode ser usado como ID para a base de dados

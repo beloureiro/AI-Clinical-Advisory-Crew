@@ -23,7 +23,7 @@ from tasks.task_definitions import (
 embedder = {
     "provider": "ollama",
     "config": {
-        "model": "llama3.1:8b"  # Match the model you're using with Ollama
+        "model": "nomic-embed-text:latest"  # Match the model you're using with Ollama
     }
 }
 
