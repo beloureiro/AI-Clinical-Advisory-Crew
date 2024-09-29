@@ -1,164 +1,217 @@
 from crewai_tools import BaseTool
-import time
+from typing import ClassVar
+import re
 
-class BPMNTool(BaseTool):
-    name: str = "BPMN Analysis Tool"
-    description: str = "Tool for extracting steps in the patient's journey based on feedback."
+# Health & IT Process Expert Agent Class
+class HealthITProcessExpertAgent(BaseTool):
+    name: str = "Health IT Process Expert"
+    description: str = "Maps the patient's journey based on feedback and suggests improvements using BPMN principles."
+    
+    args: ClassVar[dict] = {
+        "feedback": {
+            "title": "Feedback",
+            "type": "string",
+            "description": "The patient feedback that the agent will analyze to map the process and suggest improvements."
+        }
+    }
 
-    def _run(self, feedback: str) -> str:
+    def map_patient_journey(self, feedback: str) -> list:
         """
-        Main function that runs the tool based on the provided feedback.
-        It checks if the feedback is a valid string and then processes the journey mapping.
-        Includes logic to prevent infinite loops and ensures proper input validation.
+        Extracts the steps of the patient's journey from the feedback, following the BPMN structure.
         """
-        if not isinstance(feedback, str):
-            raise TypeError(f"Feedback should be a string, but got {type(feedback).__name__}")
+        journey_steps = []
+
+        # Estrutura geral para mapear o processo com base em BPMN
+        sentences = feedback.split(".")
         
-        previous_output = None
-        max_iterations = 10
-        iteration = 0
-        start_time = time.time()
-        time_limit = 5  # Limit of 5 seconds to prevent infinite loop
+        # Evento de início do processo
+        journey_steps.append("Start Event: The process begins with patient interaction, such as searching or scheduling an appointment.")
 
-        while iteration < max_iterations and (time.time() - start_time < time_limit):
-            iteration += 1
-            try:
-                journey_steps = self.extract_journey_steps(feedback)
-                journey_steps = self.remove_redundancies(journey_steps)  # Remove redundant steps
-                current_output = self.format_journey(journey_steps)
+        # Analisando cada sentença para detectar atividades, gateways e eventos
+        for sentence in sentences:
+            sentence = sentence.strip().lower()
 
-                # If the output has not changed from the previous iteration, break to avoid looping
-                if current_output == previous_output:
-                    break
-                
-                previous_output = current_output
-            except Exception as e:
-                print(f"Iteration {iteration} failed: {e}")
-                continue
+            # Detectar atividades e eventos no feedback
+            if "appointment" in sentence:
+                journey_steps.append("Task: Patient schedules an appointment.")
+            elif "wait" in sentence or "delayed" in sentence:
+                journey_steps.append("Intermediate Event: Waiting or delay in the process.")
+            elif "denied" in sentence or "turned away" in sentence:
+                journey_steps.append("Gateway: Decision to deny service or redirect patient.")
+            elif "payment" in sentence:
+                journey_steps.append("Task: Patient makes a payment.")
+            elif "consultation" in sentence:
+                journey_steps.append("Task: Patient attends consultation (online or offline).")
+            elif "review" in sentence or "feedback" in sentence:
+                journey_steps.append("End Event: Patient provides feedback and completes the process.")
 
-        if iteration >= max_iterations:
-            raise Exception("Max iterations reached, possible loop detected.")
+        # Transições e fluxos de sequência entre as atividades e eventos
+        journey_steps = self.add_sequence_flows(journey_steps)
 
-        return current_output
+        # Evento de fim, caso não tenha sido capturado
+        if not any("end event" in step.lower() for step in journey_steps):
+            journey_steps.append("End Event: The process ends with the patient's feedback or conclusion of the consultation.")
 
-    def extract_journey_steps(self, feedback: str) -> list:
+        return journey_steps
+
+    def add_sequence_flows(self, steps: list) -> list:
         """
-        Extracts the steps of the patient's journey directly from the feedback.
-        Splits the feedback into sentences representing different steps of the journey.
+        Add sequence flows between elements in the BPMN structure.
         """
-        journey_steps = feedback.split(".")
-        return [step.strip() for step in journey_steps if step]
+        sequenced_steps = []
+        for i, step in enumerate(steps):
+            sequenced_steps.append(step)
+            if i < len(steps) - 1:
+                sequenced_steps.append(f"Sequence Flow: Transition from '{steps[i]}' to '{steps[i+1]}'.")
+        return sequenced_steps
 
-    def remove_redundancies(self, steps: list) -> list:
+    def identify_inefficiencies(self, feedback: str) -> list:
         """
-        Removes redundant steps in the journey. If a step is repeated, it will be filtered out.
-        """
-        seen = set()
-        unique_steps = []
-        for step in steps:
-            if step not in seen:
-                unique_steps.append(step)
-                seen.add(step)
-        return unique_steps
-
-    def format_journey(self, steps: list) -> str:
-        """
-        Formats the extracted steps of the journey in the required task format.
-        """
-        formatted_journey = "Patient_Journey_Health_IT_Process_Expert:\n"
-        for step in steps:
-            formatted_journey += f"- {step}\n"
-        return formatted_journey
-
-
-class ProcessAnalysisTool(BaseTool):
-    name: str = "Process Analysis Tool"
-    description: str = "Tool for identifying inefficiencies and improvement suggestions in the patient's journey."
-
-    def _run(self, feedback: str) -> str:
-        """
-        Main function that runs the tool based on the provided feedback.
-        It checks if the feedback is a valid string and processes the analysis for inefficiencies and improvement suggestions.
-        Prevents infinite loops using iteration and time limit checks.
-        """
-        if not isinstance(feedback, str):
-            raise TypeError(f"Feedback should be a string, but got {type(feedback).__name__}")
-
-        previous_output = None
-        max_iterations = 10
-        iteration = 0
-        start_time = time.time()
-        time_limit = 5  # Limit of 5 seconds to avoid infinite loops
-
-        while iteration < max_iterations and (time.time() - start_time < time_limit):
-            iteration += 1
-            try:
-                inefficiencies, improvements = self.analyze_feedback(feedback)
-                current_output = self.format_analysis(inefficiencies, improvements)
-
-                # If the output has not changed from the previous iteration, break to avoid looping
-                if current_output == previous_output:
-                    break
-
-                previous_output = current_output
-            except Exception as e:
-                print(f"Iteration {iteration} failed: {e}")
-                continue
-
-        if iteration >= max_iterations:
-            raise Exception("Max iterations reached, possible loop detected.")
-        
-        return current_output
-
-    def analyze_feedback(self, feedback: str) -> tuple:
-        """
-        Analyzes the feedback to identify inefficiencies and suggest improvements.
-        Includes both systemic issues and interpersonal communication failures.
+        Identifies inefficiencies in the process based on the patient's feedback.
         """
         inefficiencies = []
-        improvement_suggestions = []
 
-        # Logic to detect inefficiencies based on common healthcare feedback patterns
-        if "not" in feedback and "informed" in feedback or "not notified" in feedback:
-            inefficiencies.append("Lack of proper communication or notification regarding service details")
-        if "wait" in feedback or "delay" in feedback:
-            inefficiencies.append("Delay in service")
+        # Verificar por problemas estruturais no processo
+        if "wait" in feedback or "delayed" in feedback:
+            inefficiencies.append("Process inefficiency: Long waiting time or delays.")
+        if "denied" in feedback or "turned away" in feedback:
+            inefficiencies.append("Process inefficiency: Patient denied service or treatment.")
         if "rude" in feedback or "disrespectful" in feedback:
-            inefficiencies.append("Unprofessional behavior from staff")
-        if "didn't listen" in feedback or "ignored" in feedback:
-            inefficiencies.append("Lack of attention to patient's concerns")
+            inefficiencies.append("Process inefficiency: Poor communication or unprofessional behavior by staff.")
+        if "no treatment" in feedback or "no resolution" in feedback:
+            inefficiencies.append("Process inefficiency: Lack of resolution or inadequate treatment.")
 
-        # Logic to suggest improvements based on feedback
-        if "not" in feedback and "informed" in feedback or "not notified" in feedback:
-            improvement_suggestions.append("Implement an alert system for notifying patients about service details")
-        if "wait" in feedback or "delay" in feedback:
-            improvement_suggestions.append("Streamline the scheduling process to minimize wait times")
-        if "rude" in feedback or "disrespectful" in feedback:
-            improvement_suggestions.append("Provide staff training on professionalism and patient interaction")
-        if "didn't listen" in feedback or "ignored" in feedback:
-            improvement_suggestions.append("Encourage doctors to engage actively with patients and listen to their concerns")
+        if not inefficiencies:
+            inefficiencies.append("No inefficiencies identified in the process.")
 
-        return inefficiencies, improvement_suggestions
+        return inefficiencies
 
-    def format_analysis(self, inefficiencies: list, improvements: list) -> str:
+    def propose_improvements(self, inefficiencies: list) -> list:
         """
-        Formats the inefficiencies and improvements in the required task format.
-        Ensures no duplication of journey mapping.
+        Suggests improvements based on the identified inefficiencies.
         """
-        formatted_analysis = ""
+        improvements = []
 
-        # Formatting inefficiencies
-        if inefficiencies:
-            formatted_analysis += "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
-            formatted_analysis += "\n".join([f"- {ineff}" for ineff in inefficiencies])
-        else:
-            formatted_analysis += "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n- No inefficiencies\n"
+        # Sugerir melhorias com base nas ineficiências detectadas
+        for inefficiency in inefficiencies:
+            if "waiting time" in inefficiency:
+                improvements.append("Improve scheduling and reduce waiting times.")
+            if "denied service" in inefficiency:
+                improvements.append("Review patient triage process to ensure proper treatment is provided.")
+            if "poor communication" in inefficiency:
+                improvements.append("Implement communication training for staff to improve professionalism.")
+            if "lack of resolution" in inefficiency:
+                improvements.append("Ensure follow-up procedures are in place for unresolved cases.")
 
-        # Formatting improvement suggestions
-        if improvements:
-            formatted_analysis += "\nImprovement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
-            formatted_analysis += "\n".join([f"- {improve}" for improve in improvements])
-        else:
-            formatted_analysis += "\nImprovement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n- No improvements needed\n"
+        if not improvements:
+            improvements.append("No improvements needed.")
 
-        return formatted_analysis
+        return improvements
+
+    def _run(self, feedback: str) -> dict:  # Ajuste para seguir o padrão do framework
+        """
+        Runs the agent to process the feedback and return the mapped journey, inefficiencies, and improvements.
+        """
+        # Map the patient's journey
+        journey = self.map_patient_journey(feedback)
+
+        # Identify inefficiencies
+        inefficiencies = self.identify_inefficiencies(feedback)
+
+        # Propose improvements
+        improvements = self.propose_improvements(inefficiencies)
+
+        # Format the final output
+        result = {
+            "Patient_Journey_Health_IT_Process_Expert": "\n".join(journey),
+            "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert": "\n".join(inefficiencies),
+            "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert": "\n".join(improvements)
+        }
+
+        return result
+
+# Output Validator for Health & IT Process Expert
+class HealthITProcessExpertOutputValidatorTool(BaseTool):
+    name: str = "Health IT Process Expert Output Validator"
+    description: str = "Validates and formats the output of the Health & IT Process Expert to ensure proper structure."
+
+    def _run(self, response: str) -> dict:
+        formatted_data = {
+            "Patient_Journey_Health_IT_Process_Expert": "",
+            "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert": "",
+            "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert": ""
+        }
+
+        # Process and validate the response, splitting it by lines
+        current_field = None
+        lines = response.split('\n')
+
+        for line in lines:
+            line = line.strip()  # Remove extra spaces
+
+            # Check if the line contains the field title
+            if "Patient_Journey_Health_IT_Process_Expert" in line:
+                current_field = "Patient_Journey_Health_IT_Process_Expert"
+                continue
+            elif "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert" in line:
+                current_field = "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert"
+                continue
+            elif "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert" in line:
+                current_field = "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert"
+                continue
+
+            # Append content to the current field
+            if current_field and line:
+                if formatted_data[current_field]:
+                    formatted_data[current_field] += f"\n- {line}"
+                else:
+                    formatted_data[current_field] = f"- {line}"
+
+        return formatted_data
+
+
+# Output Validator for Clinical Psychologist
+class ClinicalPsychologistOutputValidatorTool(BaseTool):
+    name: str = "Clinical Psychologist Output Validator"
+    description: str = "Validates and formats the output of the Clinical Psychologist agent to ensure proper structure without altering empty values."
+
+    def _run(self, response: str) -> dict:
+        formatted_data = {
+            "Emotional_State_Clinical_Psychologist": "",
+            "Support_Strategy_Clinical_Psychologist": "",
+            "Suggested_Approach_Clinical_Psychologist": ""
+        }
+
+        bold_pattern = re.compile(r'\*\*(.*?)\*\*')
+        italic_pattern = re.compile(r'\*(.*?)\*')
+
+        # Process the response line by line
+        lines = response.split('\n')
+        current_field = None
+        list_items = []
+
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+
+            # Handle bold and italic formatting
+            line = bold_pattern.sub(r'\1', line)
+            line = italic_pattern.sub(r'\1', line)
+
+            # Check for key-value pairs (field: value)
+            if ':' in line:
+                key, value = map(str.strip, line.split(':', 1))
+                if key in formatted_data:
+                    formatted_data[key] = value
+                    current_field = key
+                    list_items = []
+                else:
+                    current_field = None
+            # Handle list items
+            elif line.startswith('-') and current_field:
+                item = line.strip('- ').strip()
+                list_items.append(item)
+                formatted_data[current_field] = '\n'.join(list_items)
+
+        return formatted_data

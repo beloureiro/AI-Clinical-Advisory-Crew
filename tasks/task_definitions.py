@@ -41,36 +41,42 @@ consolidated_patient_experience_task = Task(
 # Agent 2 Tasks: Health & IT Process Expert
 consolidated_process_task = Task(
     description=(
-        "Strictly adhere to the details provided in the feedback when mapping the patient’s journey. Avoid adding assumptions or inferred actions that are not explicitly mentioned. Focus on ensuring every step described is directly tied to the feedback without introducing new events or steps."
-        "As a Health & IT Process Expert with expertise in Business Process Model and Notation (BPMN), analyze the following patient feedback, map the patient’s journey based on the feedback, and identify inefficiencies where applicable. "
-        "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your analysis and improvement suggestions accordingly:\n"
-        "- If the feedback is **positive**, focus on reinforcing best practices and suggest ways to maintain or further improve the strong points of the patient’s experience.\n"
-        "- If the feedback is **negative**, focus on identifying inefficiencies, problem areas, and suggest concrete improvements to address those pain points.\n"
-        "- If the feedback is **neutral**, look for potential areas of improvement to enhance the patient’s experience or maintain operational efficiency.\n\n"
+        "Strictly follow the BPMN methodology when mapping the patient’s journey as described in the feedback. "
+        "You must adapt your analysis based on whether the feedback is positive, negative, or neutral, without introducing any additional steps not explicitly mentioned by the patient.\n"
+        "As a Health & IT Process Expert, your task is to map the patient’s journey by focusing on the details of their feedback. If the patient mentions positive aspects (e.g., friendliness of staff), highlight these strengths. If the feedback is negative (e.g., long wait times, poor communication), identify the inefficiencies and suggest relevant improvements. "
+        "For neutral feedback, focus on areas that could be improved to optimize the process, even if no specific issues were raised.\n\n"
+        "Adjust your analysis based on the tone and content of the feedback:\n"
+        "- For **positive** feedback, focus on the aspects of the process that were successful and contributed to a positive experience.\n"
+        "- For **negative** feedback, identify where the breakdown in the process occurred, specifying the exact steps and transitions that led to the issue.\n"
+        "- For **neutral** feedback, examine the patient’s journey for areas of optimization and suggest potential improvements.\n\n"
         "'{feedback}'\n\n"
-        "**Insert the data directly into the corresponding keys/columns in the format below. Avoid writing additional text or commentary beyond what is needed.**\n\n"
+        "**Ensure strict adherence to BPMN principles while focusing on the patient's feedback. Prioritize the patient’s actual experience and avoid generalizing or assuming steps not mentioned in the feedback.**\n\n"
         "Patient_Journey_Health_IT_Process_Expert:\n"
-        "- [First step in the patient’s journey, based on the feedback]\n"
-        "- [Second step]\n"
-        "- [Additional steps if applicable]\n"
+        "- [First step based on the patient’s experience]\n"
+        "- [Second step, reflecting transitions relevant to the feedback]\n"
+        "- [Additional steps mentioned in the feedback]\n"
+        "Positive Aspects (if applicable):\n"
+        "- [Highlight any positive feedback provided]\n"
         "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
         "- [If none, write 'No inefficiencies']\n"
-        "- [Additional inefficiencies if applicable]\n"
+        "- [Identify inefficiencies based on the negative aspects of the feedback]\n"
         "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
         "- [If none, write 'No improvements needed']\n"
-        "- [Additional suggestions if applicable]"
+        "- [List suggestions relevant to the feedback]"
     ),
     expected_output=(
         "Patient_Journey_Health_IT_Process_Expert:\n"
-        "- [First step]\n"
-        "- [Second step]\n"
-        "- [Additional steps if applicable]\n"
+        "- [First step directly linked to feedback]\n"
+        "- [Second step based on feedback transitions]\n"
+        "- [Additional steps as applicable based on feedback]\n"
+        "Positive Aspects (if applicable):\n"
+        "- [Highlight positive elements]\n"
         "Inefficiencies_Healthcare_Process_Health_IT_Process_Expert:\n"
         "- No inefficiencies\n"
-        "- [Additional inefficiencies if applicable]\n"
+        "- [List inefficiencies if applicable, based on feedback]\n"
         "Improvement_Suggestions_Healthcare_Process_Health_IT_Process_Expert:\n"
         "- No improvements needed\n"
-        "- [Additional improvements if applicable]"
+        "- [List improvements based on feedback]"
     ),
     agent=process_expert_agent,
     inputs={"feedback"},
@@ -79,23 +85,22 @@ consolidated_process_task = Task(
     max_tokens=300
 )
 
+
 # Agent 3 Tasks: Clinical Psychologist
 consolidated_clinical_psychologist_task = Task(
     description=(
-        "Base your interpretation on the emotions directly expressed by the patient. Do not speculate on additional emotional states or reactions unless clearly stated. Ensure that your support strategies align with the patient's expressed feelings without introducing assumptions."
-        "As a Clinical Psychologist, analyze the patient's emotional state based on the feedback, develop a tailored psychological support strategy, and propose an approach to address the emotional impact:\n\n"
-        "'{feedback}'\n\n"
+        "Analyze the patient's emotional state based on the feedback provided and develop a tailored psychological support strategy. "
+        "Propose an approach to address the emotional impact as described by the patient, ensuring no assumptions are made beyond the expressed emotions.\n\n"
         "Depending on the sentiment of the feedback (positive, negative, or neutral), adjust your support strategy accordingly:\n"
-        "- If the feedback is **positive**, focus on reinforcing emotional well-being and sustaining the positive state.\n"
-        "- If the feedback is **negative**, focus on addressing the emotional concerns and providing support to improve the patient’s emotional well-being.\n"
-        "- If the feedback is **neutral**, suggest strategies to maintain emotional balance or improve any subtle issues.\n\n"
-        "**Ensure that you input the data directly into the keys/columns specified. Avoid any comments or text outside the expected format.**\n\n"
-        "Emotional_State_Clinical_Psychologist: [Describe the emotional state]\n"
-        "Support_Strategy_Clinical_Psychologist: [Describe the support strategy]\n"
+        "- For **positive** feedback, focus on reinforcing emotional well-being.\n"
+        "- For **negative** feedback, focus on addressing emotional concerns and improving the patient’s well-being.\n"
+        "- For **neutral** feedback, suggest strategies to maintain emotional balance or address subtle issues.\n\n"
+        "**Strictly follow the format below without adding extra comments or text.**\n\n"
+        "Emotional_State_Clinical_Psychologist: [Emotional state]\n"
+        "Support_Strategy_Clinical_Psychologist: [Support strategy]\n"
         "Suggested_Approach_Clinical_Psychologist:\n"
-        "- [First approach step]\n"
-        "- [Second approach step]\n"
-        "- [Additional steps if applicable]"
+        "- [Approach step]\n"
+        "- [Additional approach steps if applicable]"
     ),
     expected_output=(
         "Emotional_State_Clinical_Psychologist: [Emotional state]\n"
@@ -108,8 +113,9 @@ consolidated_clinical_psychologist_task = Task(
     inputs={"feedback"},
     force_output=True,
     output_format="text",
-    max_tokens=150
+    max_tokens=250
 )
+
 
 # Agent 4 Tasks: Communication Expert
 consolidated_communication_task = Task(

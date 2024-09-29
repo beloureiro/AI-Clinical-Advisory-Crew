@@ -5,19 +5,16 @@ os.environ["OPENAI_API_KEY"] = "sk-proj-111"
 
 # Configure the Ollama local models
 #----------------------------------
-llama_3_1_model = "ollama/llama3.1:8b"
-llama_3_2_model = "ollama/llama3.2:latest"
-llama3_8b_model = "ollama/llama3:8b"
-hermes_model = "ollama/hermes3:8b"
-gemma_model = "ollama/gemma2:9b"
-gemma_big_model = "ollama/gemma2:27b-instruct-q2_K "
-phi_model = "ollama/phi3.5:3.8b"
-openhermes_model = "ollama/openhermes:latest"
-mistral_mini_model = "ollama/mistral-nemo:latest"
-mistral12b_model = "ollama/mistral-nemo:12b-instruct-2407-q3_K_M"
-quwen_model = "ollama/qwen2:7b"
-llava_model = "ollama/llava:7b"
-zephyr_model = "ollama/zephyr:7b"
+llama_3_1_8b_instruct_q8_0= "ollama/llama3.1:8b-instruct-q8_0"
+llama_3_1_8b_instruct_q5_K_S = "ollama/llama3.1:8b-instruct-q5_K_S"
+gemma2_27b_instruct_q2_K  = "ollama/gemma2:27b-instruct-q2_K " # castiga hardware
+gemma2_9b_instruct_q5_K_S = "ollama/gemma2:9b-instruct-q5_K_S"
+gemma2_9b_instruct_q8_0 = "ollama/gemma2:9b-instruct-q8_0"
+mistral12b_model = "ollama/mistral-nemo:12b-instruct-2407-q3_K_M" # castiga hardware
+mistral_nemo_12b_instruct_2407_q8_0 = "ollama/mistral-nemo:12b-instruct-2407-q8_0" # castiga hardware
+mistral_nemo_12b_instruct_2407_q5_K_S = "ollama/mistral-nemo:12b-instruct-2407-q5_K_S"
 nomic_text_model = "ollama/nomic-embed-text:latest"
 mxbai_text_model = "ollama/mxbai-embed-large:latest"
+phi3_5_3_8b_mini_instruct_q8_0 = "ollama/phi3.5:3.8b-mini-instruct-q8_0"
+qwen2_5_7b_instruct_q8_0 = "ollama/qwen2.5:7b-instruct-q8_0"
 #----------------------------------

@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import time
 
+
 def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
     """
     Gera um relatório consolidado em formato JSON e o salva na pasta especificada.
@@ -93,47 +94,81 @@ def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
         else:
             lines = response.split('\n')
             current_field = None
-            collecting_list = False  # Variável para lidar com itens de lista
+            collecting_list = False  # Indica se estamos em uma lista
+            bold_text_processing = False  # Para lidar com "**"
+            italic_text_processing = False  # Para lidar com "*"
 
             for line in lines:
                 line = line.strip()
                 if not line:
                     continue
-                
-                # Se a linha contém um campo com valor
+
+                # Processa múltiplos "*" e "**" no início da linha
+                while line.startswith('**') or line.startswith('*'):
+                    if line.startswith('**'):
+                        line = line.replace('**', '', 1).strip()
+                        bold_text_processing = True
+                    elif line.startswith('*'):
+                        line = line.replace('*', '', 1).strip()
+                        italic_text_processing = True
+
+                # Se a linha contém um campo com valor (key: value)
                 if ':' in line:
                     key, value = map(str.strip, line.split(':', 1))
                     matched_key = match_key(agent_name, key)
                     if matched_key:
-                        # Atualiza o campo atual, reiniciando qualquer lista
+                        # Aplica formatação, se necessário
+                        if bold_text_processing:
+                            value = f"**{value}**"
+                            bold_text_processing = False  # Reseta o estado
+                        if italic_text_processing:
+                            value = f"*{value}*"
+                            italic_text_processing = False  # Reseta o estado
+
+                        # Atualiza o campo atual
                         agent_data["response"][matched_key] = value
                         current_field = matched_key
                         collecting_list = False  # Reinicia o status de lista
                     else:
                         current_field = None
-                
-                # Se a linha começa com "-" (indicando lista)
+
+                # Se a linha começa com "-" (indicando uma lista)
                 elif line.startswith('-') and current_field:
                     item = line.strip('- ').strip()
+
+                    # Aplica formatação, se necessário
+                    if bold_text_processing:
+                        item = f"**{item}**"
+                        bold_text_processing = False
+                    if italic_text_processing:
+                        item = f"*{item}*"
+                        italic_text_processing = False
+
+                    # Se é o primeiro item da lista
                     if not collecting_list:
-                        # Se este é o primeiro item da lista
                         agent_data["response"][current_field] = f"- {item}"
                         collecting_list = True
                     else:
-                        # Caso já esteja coletando itens da lista, anexa ao campo atual
+                        # Continua a lista, adicionando mais itens
                         agent_data["response"][current_field] += f"\n- {item}"
-                
-                # Se a linha faz parte de um campo existente, mas não é uma lista
+
+                # Se a linha faz parte de um campo existente e não é uma lista
                 elif current_field:
-                    # Anexa conteúdo adicional ao campo atual
+                    if bold_text_processing:
+                        line = f"**{line}**"
+                        bold_text_processing = False
+                    if italic_text_processing:
+                        line = f"*{line}*"
+                        italic_text_processing = False
+
                     if collecting_list:
                         agent_data["response"][current_field] += f"\n  {line.strip()}"
                     else:
                         agent_data["response"][current_field] += f" {line.strip()}"
 
-        # Limpa campos que terminaram com ";" extra ou com espaços adicionais
-        for field in agent_fields.get(agent_name, []):
-            agent_data["response"][field] = clean_up_field(agent_data["response"].get(field, ""))
+            # Limpa campos que terminaram com ";" ou espaços extras
+            for field in agent_fields.get(agent_name, []):
+                agent_data["response"][field] = clean_up_field(agent_data["response"].get(field, ""))
 
         return agent_data
 
@@ -157,6 +192,7 @@ def save_agent_results_as_json(patient_feedback, tasks_output, total_duration):
 
     print(f"Report saved as JSON: {file_name}")
     return file_name
+
 
 # Funções auxiliares adicionais
 def format_output_with_agent_and_model(agent, model, response):
@@ -212,6 +248,7 @@ def execute_agents(tasks_output):
         agent_end_time = time.time()
         agent_duration = agent_end_time - agent_start_time
         print(f"Agent {agent_name} took {agent_duration:.2f} seconds.\n")
+
 
 def save_consolidated_report(patient_feedback, tasks_output, total_duration):
     """
