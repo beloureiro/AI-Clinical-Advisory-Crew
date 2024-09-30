@@ -1,5 +1,5 @@
 from crewai import Task
-from agents.agent_definitions import (
+from agents.agent_advisory import (
     patient_experience_agent, process_expert_agent, clinical_psychologist_agent,
     communication_expert_agent, manager_agent
 )

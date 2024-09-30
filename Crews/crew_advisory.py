@@ -5,7 +5,7 @@
 #   - Comment out the manager_agent in the imports and in the agents list, and instead specify it in the manager_agent parameter within the Crew configuration.
 
 from crewai import Crew
-from agents.agent_definitions import (
+from agents.agent_advisory import (
     patient_experience_agent, process_expert_agent, clinical_psychologist_agent, 
     communication_expert_agent, 
     manager_agent  # Manager agent is included by default for sequential process

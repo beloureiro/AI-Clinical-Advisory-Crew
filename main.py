@@ -1,5 +1,5 @@
 import time
-from config.crew_config import ai_clinical_crew
+from Crews.crew_advisory import ai_clinical_crew
 from utils import (
     log_model_usage, get_patient_feedback, log_all_models, 
     format_task_descriptions, execute_agents, 

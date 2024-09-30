@@ -260,7 +260,7 @@ def save_consolidated_report(patient_feedback, tasks_output, total_duration):
     file_name = f"report_{current_time}.txt"
 
     # Define o diretório onde o arquivo será salvo
-    directory = r"D:\OneDrive - InMotion - Consulting\AI Projects\AI-Clinical-Advisory-Crew\data_reports"
+    directory = r"D:\OneDrive - InMotion - Consulting\AI Projects\AI-Clinical-Advisory-Crew\data_reports_txt"
 
     # Cria o caminho completo do arquivo
     file_path = os.path.join(directory, file_name)
