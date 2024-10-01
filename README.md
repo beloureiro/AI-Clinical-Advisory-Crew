@@ -1,7 +1,10 @@
+
 # AI Clinical Advisory Crew
 
 ## Description
 Welcome to the **AI Clinical Advisory Crew**, an advanced and flexible system designed to transform and elevate the patient experience in healthcare. This project brings together a team of specialized AI agents, each with a unique role in analyzing patient feedback, improving healthcare workflows, assessing emotional states, and delivering actionable recommendations for communication and operational improvements.
+
+For a live demonstration of how this system works in practice, visit our frontend Viewer platform that visualizes AI agent outputs: [AI-CAC Viewer](https://ai-cac.streamlit.app/). This will give you a practical understanding of the AI analysis in action and how the system improves healthcare outcomes. You can also explore the front-end repository [here](https://github.com/beloureiro/AI-CAC-Viewer.git).
 
 At the heart of this system lies its dynamic flexibility: it navigates across a suite of **Large Language Models (LLMs)** to determine the optimal AI configuration for each specific task. By utilizing models like Meta's LLaMA, NousResearch's Hermes, Microsoft's Phi, and others, the system continuously tests and refines outputs to ensure that the best-suited AI crew is selected to address the task at hand. This multi-agent approach allows for the combination of strengths across different models, ensuring comprehensive, data-driven analysis that adapts to the unique needs of your healthcare environment.
 

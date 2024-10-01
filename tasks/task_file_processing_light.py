@@ -1,31 +1,33 @@
-import os
 from crewai import Task
-from crewai_tools import DirectoryReadTool
-from agents.agent_backend_light import file_list_agent
+from agents.agent_backend_light import json_file_agent, txt_file_agent, file_manager_agent
 
-# Inicializar a ferramenta para leitura do diretório JSON
-json_directory_tool = DirectoryReadTool(directory='D:/OneDrive - InMotion - Consulting/AI Projects/AI-Clinical-Advisory-Crew/data_reports_json/')
+# Delegate JSON task to JSON File List Agent
+def delegate_json_task():
+    return file_manager_agent.delegate_work_to_coworker(
+        coworker="JSON File List Agent",  # Nome do agente
+        task="List JSON files",  # Descrição da tarefa como string
+        context="List all JSON files in the specified directory"  # Descrição do contexto como string
+    )
 
-# Função para listar apenas arquivos do diretório JSON
-def list_json_files():
-    print("Starting JSON file listing task...")
+# Delegate TXT task to TXT File List Agent
+def delegate_txt_task():
+    return file_manager_agent.delegate_work_to_coworker(
+        coworker="TXT File List Agent",  # Nome do agente
+        task="List TXT files",  # Descrição da tarefa como string
+        context="List all TXT files in the specified directory"  # Descrição do contexto como string
+    )
 
-    # Listar arquivos no diretório JSON
-    print("Listing JSON files...")
-    json_files = json_directory_tool.read_directory()
-    json_files = [f for f in json_files if f.endswith('.json')]
-
-    # Log dos arquivos JSON encontrados
-    print(f"JSON files found: {len(json_files)}")
-    for json_file in json_files:
-        print(f"- {json_file}")
-
-    return json_files
-
-# Definir a tarefa para listar os arquivos JSON
+# Definindo as tarefas
 list_json_files_task = Task(
-    description="List files from the JSON directory.",
-    agent=file_list_agent,
-    function=list_json_files,
-    expected_output="A list of JSON files from the directory."
+    description="Delegate JSON file listing task to the JSON File List Agent.",
+    agent=file_manager_agent,
+    function=delegate_json_task,  # Chamada correta para a função delegate_json_task
+    expected_output="A list of JSON files from the JSON directory."
+)
+
+list_txt_files_task = Task(
+    description="Delegate TXT file listing task to the TXT File List Agent.",
+    agent=file_manager_agent,
+    function=delegate_txt_task,  # Chamada correta para a função delegate_txt_task
+    expected_output="A list of TXT files from the TXT directory."
 )

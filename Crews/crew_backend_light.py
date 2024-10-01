@@ -1,18 +1,17 @@
 import os
 import time
-from tqdm import tqdm  # Progress bar
+from tqdm import tqdm
 from crewai import Crew
-from tasks.task_file_processing_light import list_json_files_task  # Atualizado para a nova tarefa
-from agents.agent_backend_light import file_list_agent
+from agents.agent_backend_light import json_file_agent, txt_file_agent, file_manager_agent
+from tasks.task_file_processing_light import list_json_files_task, list_txt_files_task
 
-print(os.getcwd())
-
-# Configuração do Crew com o agente de listagem de arquivos JSON
+# Configuração do Crew com os agentes e suas respectivas tarefas
 backend_crew = Crew(
-    agents=[file_list_agent],
-    tasks=[list_json_files_task],  # Atualizado para a nova tarefa de listagem JSON
-    process="sequential",  # Execução sequencial de tarefas
-    verbose=True  # Logs detalhados
+    agents=[json_file_agent, txt_file_agent],  # JSON and TXT agents for file listing
+    tasks=[list_json_files_task, list_txt_files_task],  # Tasks delegated to agents
+    manager_agent=file_manager_agent,  # The file manager agent manages delegation
+    process="hierarchical",  # Use hierarchical execution
+    verbose=True  # Correção: verbose como booleano
 )
 
 # Função para executar o Crew com logging e barra de progresso
@@ -20,36 +19,27 @@ def execute_backend_crew():
     start_time = time.time()
 
     print("############################")
-    print("# CrewAI JSON File Listing Execution")
+    print("# CrewAI File Listing Execution with Hierarchy")
     print("############################\n")
 
-    # Logging dos modelos LLM usados pelos agentes
+    # Exibir os modelos LLM usados pelos agentes
     print("LLM Models Used by Agents:")
-    print(f"Agent: {file_list_agent.role}, Model: {file_list_agent.llm}\n")
+    print(f"Agent: {json_file_agent.role}, Model: {json_file_agent.llm}")
+    print(f"Agent: {txt_file_agent.role}, Model: {txt_file_agent.llm}")
+    print(f"Agent: {file_manager_agent.role}, Model: {file_manager_agent.llm}\n")
 
-    # Iniciar execução da tarefa
+    # Iniciar execução das tarefas
     print("Starting task execution...\n")
     
     try:
-        # Caminho do diretório para processamento de arquivos JSON
-        dir_path = "D:/OneDrive - InMotion - Consulting/AI Projects/AI-Clinical-Advisory-Crew/data_reports_json/"
-        print(f"Checking directory '{dir_path}'...")
-
-        if os.path.exists(dir_path):
-            print(f"Directory '{dir_path}' found successfully.")
-            print("Processing files in directory...\n")
-
-            # Barra de progresso para a execução das tarefas
-            tasks = backend_crew.tasks
-            with tqdm(total=len(tasks), desc="Executing Crew tasks", unit="task") as pbar:
-                result = backend_crew.kickoff()
-                if result:
-                    pbar.update(1)
-                    print("Task execution completed successfully.")
-                else:
-                    print("No valid outputs found during Crew execution.")
-        else:
-            print(f"Error: Directory '{dir_path}' does not exist.")
+        tasks = backend_crew.tasks
+        with tqdm(total=len(tasks), desc="Executing Crew tasks", unit="task") as pbar:
+            result = backend_crew.kickoff()
+            if result:
+                pbar.update(1)
+                print("Task execution completed successfully.")
+            else:
+                print("No valid outputs found during Crew execution.")
     
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
